@@ -20,10 +20,10 @@ func NewPlayerManager() models.PlayerManager {
 func (mm *PlayerManager) LoadPlayerByID(ctx context.Context, id string) (*models.Player, error) {
 	player, ok := mm.Players[id]
 	if !ok {
-		return nil, fmt.Errorf("player %q not found", player)
+		return nil, fmt.Errorf("player %q not found", id)
 	}
 
-	return nil, nil
+	return player, nil
 }
 
 func (mm *PlayerManager) LoadAllPlayers(ctx context.Context) ([]*models.Player, error) {

@@ -8,11 +8,13 @@ import (
 type Memory struct {
 	models.PlayerManager
 	models.GameManager
+	models.SessionManager
 }
 
 func NewMemory() Service {
 	return &YAML{
-		PlayerManager: memory.NewPlayerManager(),
-		GameManager:   memory.NewGameManager(),
+		PlayerManager:  memory.NewPlayerManager(),
+		GameManager:    memory.NewGameManager(),
+		SessionManager: memory.NewSessionManager(),
 	}
 }

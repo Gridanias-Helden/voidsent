@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/ravener/discord-oauth2"
 	"golang.org/x/oauth2"
 

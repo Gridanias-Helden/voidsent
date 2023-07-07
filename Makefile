@@ -10,9 +10,7 @@ test:
 
 format: 
 	@echo "... Formats"
-	@echo ${dirs}
 	@for d in ${dirs}; do \
-		echo $${d}; \
 		goimports -local ${mods} -l $${d}/*.go; \
 		goimports -local ${mods} -w $${d}/*.go; \
 	done

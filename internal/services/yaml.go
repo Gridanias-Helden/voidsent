@@ -8,6 +8,7 @@ import (
 type YAML struct {
 	models.PlayerManager
 	models.GameManager
+	models.SessionManager
 }
 
 func NewYAML(filename string) (Service, error) {
@@ -24,5 +25,6 @@ func NewYAML(filename string) (Service, error) {
 	return &YAML{
 		PlayerManager: playerManager,
 		GameManager:   gameManager,
+		//SessionManager: sessionManager,
 	}, nil
 }

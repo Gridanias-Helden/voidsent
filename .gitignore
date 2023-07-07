@@ -22,3 +22,4 @@ go.work
 
 # directories
 .directory
+.env
