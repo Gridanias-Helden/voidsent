@@ -21,7 +21,7 @@ func WithSession(manager services.Service) func(next http.Handler) http.Handler 
 			c, err := r.Cookie("voidsent_session")
 			if err == nil {
 				session, err = manager.LoadSessionByID(r.Context(), c.Value)
-				if err != nil {
+				if err == nil {
 					r = r.WithContext(context.WithValue(r.Context(), SessionKey, session))
 				}
 			}
