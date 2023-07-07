@@ -12,6 +12,7 @@ import (
 	"github.com/oklog/ulid"
 	"golang.org/x/oauth2"
 
+	"github.com/gridanias-helden/voidsent/internal/middleware"
 	"github.com/gridanias-helden/voidsent/internal/models"
 	"github.com/gridanias-helden/voidsent/internal/services"
 )
@@ -144,6 +145,35 @@ func (d *Discord) Callback(w http.ResponseWriter, r *http.Request) {
 		Path:     "/",
 		Expires:  time.Now().Add(24 * time.Hour),
 		MaxAge:   24 * 60 * 60,
+		HttpOnly: true,
+		Secure:   true,
+		SameSite: http.SameSiteDefaultMode,
+	}
+
+	http.SetCookie(w, &sessionCookie)
+
+	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+}
+
+func (d *Discord) Logout(w http.ResponseWriter, r *http.Request) {
+	session, ok := r.Context().Value(middleware.SessionKey).(*models.Session)
+	if !ok {
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
+	if err := d.Service.DeleteSession(r.Context(), session); err != nil {
+		log.Println(err)
+		http.Redirect(w, r, "/errors/"+err.Error(), http.StatusTemporaryRedirect)
+		return
+	}
+
+	sessionCookie := http.Cookie{
+		Name:     "voidsent_session",
+		Value:    "",
+		Path:     "/",
+		Expires:  time.Now().Add(-24 * time.Hour),
+		MaxAge:   -1,
 		HttpOnly: true,
 		Secure:   true,
 		SameSite: http.SameSiteDefaultMode,
