@@ -1,0 +1,85 @@
+= Voidsent
+
+Some voidsent infiltrated Gridania - a peaceful little village. +
+They took over some of the villagers and continue to eliminate its citizens. +
+But finding them isn't so easy since they disguised themselves as their first victims. +
+Until they find and remove all voidsent, every night a citizen suffers at the hand of the voidsent. +
+
+Can the citizens identify and remove all voidsent before they are wiped out?
+
+== Rules
+
+At the begining, every player is assigned a <<roles,role>>. Every night, the <<Voidsent,voidsent>> remove a <<Citizen,citizen>> until there are no more citizens left or the citizens were able to remove all voidsent.
+
+== Playthrough
+
+The game is divided into three phases:
+
+- Preparations
+- Night
+- Day
+
+The preparations are done once at the start of the game. The other two cycle each other.
+
+=== Night
+
+At the beginning of the night, the fortune teller decides who's true nature he/she wants to know. +
+It is revealed to him/her and can now try to use this information to convince the other citizens. +
+If he/she survives the night.
+
+Next are the voidsent. They decide which citizen is removed from the game. If they can't decide, nobody is removed.
+
+Last is the witch. He/she is told which citizen is going to be removed. +
+He/she can use this information to rescue the citizen. +
+If he/she decides to rescue him/her, this ability is lost. +
+Additionally, he/she can poison a citizen and remove him from the game.
+
+After that the citizens of Gridania are greeted by a new dawn. At least for the remaining citizens.
+
+=== Day
+
+It's revealed who was removed during the night. It's not revealed, *how* they were removed. +
+The voidsent now act as the other citizens and try to survive the day. +
+The other citizens now try to get a voidsent removed.
+
+This is achieved but discussing, lying, bluffing etc.
+
+Afterwards every citizen (and voidsent) vote on who to remove. This vote is public. +
+At the end, the actual role of the removed citizen is revealed.
+
+Are all voidsent removed, gridania wins. But are all citizens removed, the voidsent win.
+
+Should there still be citizens and voidsent left, a new night breaks over gridania.
+
+== Roles [[roles]]
+
+There are currently 4 roles:
+
+- <<Voidsent>>
+- <<Citizen>>
+- <<Fortune Teller>>
+- <<Witch>>
+
+=== Voidsent
+
+Every night the voidsent decide on their victim and eliminate it. Said victim can't take part from the next morning onwards.
+
+=== Fortune Teller
+
+Every night the fortune teller can decide who's true identity he/she wishes to see. She can then try to use this knowledge to convince the other citizens.
+
+=== Witch
+
+After the <<Voidsent,voidsent>> eliminate their victim, the witch can save him/her (even herself). He/She can also brew a poison and use it to remove a voidsent/citizen (He/She may not know who is who). +
+Each of those actions can only performed once in a playthrough.
+
+=== Citizen
+
+The citizens don't have special abilities. They can however debate to try to find out who might be a voidsent. +
+At the end of the day, they vote who is likely a voidsent and remove him/her from the game.
+
+After the citizen is removed his/her role will be revealed.
+
+== Credits
+
+This game is heavily inspired by the game "Les loups-garous de Thiercelieux" (also know as "The Werewolves of Millers Hollow" or "Die Werwölfe von Düsterwald") by Philippe des Phallières and Hervé Marly. The setting is changed to more fit the theme of the game "Final Fantasy XIV" by "Square Enix".
