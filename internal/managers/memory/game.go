@@ -1,10 +1,7 @@
-package yml
+package memory
 
 import (
 	"context"
-	"os"
-
-	"gopkg.in/yaml.v2"
 
 	"github.com/gridanias-helden/voidsent/internal/models"
 )
@@ -13,16 +10,10 @@ type GameManager struct {
 	Games []*models.Game `yaml:"games"`
 }
 
-func NewGameManager(filename string) (models.GameManager, error) {
-	data, err := os.ReadFile(filename)
-	if err != nil {
-		return nil, err
+func NewGameManager() models.GameManager {
+	return &GameManager{
+		make([]*models.Game, 0),
 	}
-
-	var manager *GameManager
-	yaml.Unmarshal(data, &manager)
-
-	return manager, nil
 }
 
 func (ym *GameManager) LoadGameByID(ctx context.Context, id string) (*models.Game, error) {

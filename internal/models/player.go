@@ -3,6 +3,7 @@ package models
 import "context"
 
 type Player struct {
+	ID     string
 	Name   string
 	Avatar string
 }

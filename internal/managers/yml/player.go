@@ -4,9 +4,9 @@ import (
 	"context"
 	"os"
 
-	"github.com/go-yaml/yaml"
+	"gopkg.in/yaml.v2"
 
-	"github.com/christopher-kleine/werewolves/internal/models"
+	"github.com/gridanias-helden/voidsent/internal/models"
 )
 
 type PlayerManager struct {
