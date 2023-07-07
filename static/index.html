@@ -4,11 +4,11 @@
 	<meta charset="UTF-8">
 	<title>Unter Gridanias Helden ...</title>
 	<style>
-        * {
-            font-family: sans-serif;
-        }
+		* {
+			font-family: sans-serif;
+		}
 
-        body {
+		body {
 			width: 100vw;
 			height: 100vh;
 			margin: 0;
@@ -20,35 +20,35 @@
 			overflow: hidden;
 		}
 
-        h1 {
-            font-size: 2rem;
-            color: #36393f;
-            text-align: center;
-            margin: 0 0 20px;
-        }
+		h1 {
+			font-size: 2rem;
+			color: #36393f;
+			text-align: center;
+			margin: 0 0 20px;
+		}
 
 		#day {
 			position: absolute;
 			top: 0;
 			left: 0;
 
-            width: 100vw;
-            height: 100vh;
+			width: 100vw;
+			height: 100vh;
 
-            background: rgb(28,245,77);
-            background: linear-gradient(0deg, rgba(28,245,77,1) 0%, rgba(18,109,155,1) 10%, rgba(18,109,155,1) 90%, rgba(0,0,0,1) 100%);
-        }
+			background: rgb(28, 245, 77);
+			background: linear-gradient(0deg, rgba(28, 245, 77, 1) 0%, rgba(18, 109, 155, 1) 10%, rgba(18, 109, 155, 1) 90%, rgba(0, 0, 0, 1) 100%);
+		}
 
-        #night {
-            position: absolute;
-            top: -100vh;
-            left: 0;
+		#night {
+			position: absolute;
+			top: -100vh;
+			left: 0;
 
-            width: 100vw;
-            height: 100vh;
+			width: 100vw;
+			height: 100vh;
 
-            background: rgb(28,245,77);
-            background: linear-gradient(0deg, rgba(18,109,155,0) 0%, rgba(0, 0, 0,1) 20%, rgba(0,0,0,1) 100%);
+			background: rgb(28, 245, 77);
+			background: linear-gradient(0deg, rgba(18, 109, 155, 0) 0%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 100%);
 		}
 
 		#content {
@@ -57,46 +57,45 @@
 			width: calc(50vw - 40px);
 			height: calc(90vh - 40px);
 			border-radius: 20px;
-			box-shadow: 0 0 20px rgba(0,0,0,0.5);
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 			border: 10px solid black;
 			padding: 20px;
 
 			display: flex;
 			flex-direction: column;
 			align-content: center;
-        }
+		}
 
-        .dialog-body label {
+		.dialog-body label {
 			display: block;
 		}
 
-        .row button, dialog button {
-            font-weight: bold;
-            background: #556cff;
+		.row button, dialog button {
+			font-weight: bold;
+			background: #556cff;
 			font-size: 1.2em;
-            color: white;
-            border: 0;
-            box-shadow: 0 0 5px rgba(0,0,0,0.5);
-            cursor: pointer;
-            outline: none;
+			color: white;
+			border: 0;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+			cursor: pointer;
+			outline: none;
 			border-radius: 5px;
-        }
+		}
 
-        .row button:hover {
-            background: white;
-            color: #556cff;
-        }
+		.row button:hover {
+			background: white;
+			color: #556cff;
+		}
 
 
-
-        #new-game {
+		#new-game {
 			font-size: 1.5rem;
 			font-weight: bold;
 			background: #556cff;
 			color: white;
 			border: 0;
 			border-radius: 20px;
-			box-shadow: 0 0 20px rgba(0,0,0,0.5);
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 			cursor: pointer;
 			outline: none;
 		}
@@ -109,9 +108,10 @@
 		.to-night {
 			animation: night 5s forwards;
 		}
-        .from-night {
-            animation: night 5s backwards;
-        }
+
+		.from-night {
+			animation: night 5s backwards;
+		}
 
 		#rooms {
 			flex-grow: 1;
@@ -119,35 +119,35 @@
 			border: 2px solid black;
 			border-radius: 20px;
 			margin-bottom: 30px;
-			box-shadow: 0 0 20px rgba(0,0,0,0.5);
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 			padding: 20px;
-            overflow: scroll;
+			overflow: scroll;
 		}
 
 		.row {
 			width: calc(100% - 20px);
 			display: flex;
 			padding: 10px;
-            border-left: 1px solid black;
-            border-right: 1px solid black;
+			border-left: 1px solid black;
+			border-right: 1px solid black;
 		}
 
 		.row:nth-child(odd) {
 			background: #eee;
 		}
 
-        .row:first-child {
-            border-top: 1px solid black;
-            border-bottom: 1px solid black;
-            background: #aaa;
+		.row:first-child {
+			border-top: 1px solid black;
+			border-bottom: 1px solid black;
+			background: #aaa;
 			color: white;
 			font-weight: bold;
 			font-size: 1.1em;
-        }
+		}
 
-        .row:last-child {
-            border-bottom: 1px solid black;
-        }
+		.row:last-child {
+			border-bottom: 1px solid black;
+		}
 
 		.row div:first-child {
 			flex-grow: 1;
@@ -207,692 +207,971 @@
 	</style>
 </head>
 <body>
-	<div id="day">
-		<div id="night"></div>
-	</div>
+<div id="day">
+	<div id="night"></div>
+</div>
 
-	<div id="content">
-		<h1>Unter Gridanias Helden ...</h1>
-		<div id="rooms">
-			<div class="row">
-				<div>Raum</div>
-				<div>Spieler</div>
-				<div>&nbsp;</div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
-			</div>
-			<div class="row">
-				<div>Demo-Raum</div>
-				<div>1</div>
-				<div><button>Los!</button></div>
+<div id="content">
+	<h1>Unter Gridanias Helden ...</h1>
+	<div id="rooms">
+		<div class="row">
+			<div>Raum</div>
+			<div>Spieler</div>
+			<div>&nbsp;</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
 			</div>
 		</div>
-		<button id="new-game">Neues Spiel</button>
-	</div>
-
-	<dialog id="new-game-dialog">
-		<div class="dialog-content">
-			<div class="dialog-header">
-				<h2>Neues Spiel erstellen</h2>
-			</div>
-			<div class="dialog-body">
-				<label for="game-name">Name des Spiels</label>
-				<input type="text" id="game-name" placeholder="Name des Spiels">
-			</div>
-			<div class="dialog-footer">
-				<button id="cancel-create-game" onclick="document.querySelector('#new-game-dialog').close()">Abbrechen</button>
-				<button id="create-game">Auf gehts!</button>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
 			</div>
 		</div>
-	</dialog>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+		<div class="row">
+			<div>Demo-Raum</div>
+			<div>1</div>
+			<div>
+				<button>Los!</button>
+			</div>
+		</div>
+	</div>
+	<button id="new-game">Neues Spiel</button>
+</div>
 
-	<script>
-		document.querySelector('#new-game').addEventListener('click', function() {
-			document.querySelector('#new-game-dialog').showModal();
-		})
-	</script>
+<dialog id="new-game-dialog">
+	<div class="dialog-content">
+		<div class="dialog-header">
+			<h2>Neues Spiel erstellen</h2>
+		</div>
+		<div class="dialog-body">
+			<label for="game-name">Name des Spiels</label>
+			<input type="text" id="game-name" placeholder="Name des Spiels">
+		</div>
+		<div class="dialog-footer">
+			<button id="cancel-create-game" onclick="document.querySelector('#new-game-dialog').close()">Abbrechen
+			</button>
+			<button id="create-game">Auf gehts!</button>
+		</div>
+	</div>
+</dialog>
+
+<script>
+	document.querySelector('#new-game').addEventListener('click', function () {
+		document.querySelector('#new-game-dialog').showModal();
+	})
+
+	let ws = new WebSocket(`ws://${window.location.host}/ws`);
+	ws.onopen = () => {
+		console.log('connected');
+		ws.send('hello');
+	}
+
+	ws.onmessage = (event) => {
+		console.log(event.data);
+	}
+
+	ws.onclose = () => {
+		console.log('disconnected');
+	}
+
+	ws.onerror = (err) => {
+		console.error(err);
+	}
+</script>
 </body>
 </html>
