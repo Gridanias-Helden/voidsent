@@ -3,8 +3,10 @@ package models
 import "context"
 
 type Game struct {
-	Players map[string]Role
-	Status  GameStatus
+	ID      string          `json:"id"`
+	Players map[string]Role `json:"players"`
+	Name    string          `json:"name"`
+	Status  GameStatus      `json:"status"`
 }
 
 type GameManager interface {

@@ -3,14 +3,15 @@ package models
 type GameStatus int
 
 const (
-	StatusCards GameStatus = iota
+	StatusAwaitingPlayer GameStatus = iota
+	StatusCards
 	StatusWerewolves
 	StatusSacrifice
 	StatusDebate
 	StatusTribunal
-	// StatusThief
-	// StatusCupid
-	// StatusCouple
+	StatusThief
+	StatusCupid
+	StatusCouple
 	StatusFortuneTeller
 	StatustWitch
 )

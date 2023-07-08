@@ -3,7 +3,8 @@ package models
 type Role int
 
 const (
-	RoleWerewolve Role = iota
+	RoleUndecided Role = iota
+	RoleWerewolve
 	RoleTownsfolk
 	RoleFortuneTeller
 	RoleWitch

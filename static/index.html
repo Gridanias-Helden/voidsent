@@ -1150,28 +1150,18 @@
 	</div>
 </dialog>
 
-<script>
+<script type="module">
+	import { Voidsent } from "/js/game.js";
+
+	let client = new Voidsent();
+
 	document.querySelector('#new-game').addEventListener('click', function () {
 		document.querySelector('#new-game-dialog').showModal();
 	})
 
-	let ws = new WebSocket(`ws://${window.location.host}/ws`);
-	ws.onopen = () => {
-		console.log('connected');
-		ws.send('hello');
-	}
-
-	ws.onmessage = (event) => {
-		console.log(event.data);
-	}
-
-	ws.onclose = () => {
-		console.log('disconnected');
-	}
-
-	ws.onerror = (err) => {
-		console.error(err);
-	}
+	document.querySelector("#create-game").addEventListener("click", function () {
+		client.newGame(document.querySelector("#game-name").value)
+	})
 </script>
 </body>
 </html>

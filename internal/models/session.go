@@ -6,9 +6,10 @@ import (
 )
 
 type Session struct {
-	ID      string
-	Player  *Player
-	Started time.Time
+	ID      string    `json:"id"`
+	Player  *Player   `json:"player"`
+	Started time.Time `json:"started"`
+	Game    string    `json:"game"`
 }
 
 type SessionManager interface {

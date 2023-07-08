@@ -3,9 +3,9 @@ package models
 import "context"
 
 type Player struct {
-	ID     string
-	Name   string
-	Avatar string
+	ID     string `json:"id"`
+	Name   string `json:"name"`
+	Avatar string `json:"avatar"`
 }
 
 type PlayerManager interface {
