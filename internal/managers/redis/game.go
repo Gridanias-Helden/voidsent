@@ -34,7 +34,26 @@ func (rm *GameManager) LoadGameByID(ctx context.Context, id string) (*models.Gam
 }
 
 func (rm *GameManager) LoadAllGames(ctx context.Context) ([]*models.Game, error) {
-	return nil, nil
+	var gameList map[string]string
+
+	err := rm.Client.Do(ctx, radix.Cmd(&gameList, "HGETALL", "game"))
+	if err != nil {
+		return nil, err
+	}
+
+	games := make([]*models.Game, len(gameList))
+	index := 0
+	for _, v := range gameList {
+		var g models.Game
+		err = json.Unmarshal([]byte(v), &g)
+		if err != nil {
+			return nil, err
+		}
+		games[index] = &g
+		index++
+	}
+
+	return games, nil
 }
 
 func (rm *GameManager) SaveGame(ctx context.Context, game *models.Game) (*models.Game, error) {
