@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/mediocregopher/radix/v4"
 
 	"github.com/olahol/melody"
 
@@ -24,13 +27,18 @@ func main() {
 	}
 
 	mel := melody.New()
+	redisClient, err := (radix.PoolConfig{}).New(context.Background(), "tcp", appConfig.RedisHost)
+	if err != nil {
+		log.Fatalln("redis error", err)
+	}
 
 	// yamlService, err := services.NewYAML("./store.yml")
 	// if err != nil {
 	// 	log.Fatalln(err)
 	// }
 
-	memoryManager := services.NewMemory()
+	//memoryManager := services.NewMemory()
+	redisManager := services.NewRedis(redisClient)
 
 	discordHandler := handlers.Discord{
 		OAuth: &oauth2.Config{
@@ -40,18 +48,19 @@ func main() {
 			ClientID:     appConfig.DiscordClientID,
 			ClientSecret: appConfig.DiscordClientSecret,
 		},
-		Service: memoryManager,
+		Service: redisManager,
 		KV:      make(map[string]time.Time),
 	}
 	wsHandler := &handlers.WebSocket{
-		Melody: mel,
+		Melody:  mel,
+		Service: redisManager,
 	}
 
 	router := &http.ServeMux{}
 	wrappedRouter := middleware.Chain(
 		router,
 		middleware.WithLogging,
-		middleware.WithSession(memoryManager),
+		middleware.WithSession(redisManager),
 	)
 
 	mel.HandleConnect(wsHandler.Connect)

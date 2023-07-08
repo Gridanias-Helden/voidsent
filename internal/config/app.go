@@ -13,6 +13,7 @@ type AppConfig struct {
 	Host                string
 	Bind                string
 	Static              string
+	RedisHost           string
 }
 
 func New() (*AppConfig, error) {
@@ -22,6 +23,7 @@ func New() (*AppConfig, error) {
 		Host:                strings.TrimSpace(os.Getenv("VOIDSENT_HOST")),
 		Bind:                strings.TrimSpace(os.Getenv("VOIDSENT_BIND")),
 		Static:              strings.TrimSpace(os.Getenv("VOIDSENT_DATA")),
+		RedisHost:           strings.TrimSpace(os.Getenv("VOIDSENT_REDIS_HOST")),
 	}
 
 	if conf.Bind == "" {
@@ -34,6 +36,10 @@ func New() (*AppConfig, error) {
 
 	if conf.Static == "" {
 		conf.Static = "./static"
+	}
+
+	if conf.RedisHost == "" {
+		conf.RedisHost = "localhost:6379"
 	}
 
 	if conf.DiscordClientID == "" {
