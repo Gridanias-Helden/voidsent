@@ -1,6 +1,7 @@
 export class Voidsent {
     constructor() {
-        this.ws = new WebSocket(`ws://${window.location.host}/ws`);
+        let proto = window.location.protocol === "https:" ? "wss" : "ws";
+        this.ws = new WebSocket(`${proto}://${window.location.host}/ws`);
 
         this.ws.onopen = this.onopen.bind(this);
         this.ws.onerror = this.onerror.bind(this);
