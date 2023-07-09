@@ -8,9 +8,9 @@ const (
 	RoleTownsfolk
 	RoleFortuneTeller
 	RoleWitch
-	// RoleThief
-	// RoleCupid
-	// RoleLittleGirl
-	// RoleHunter
-	// RoleSheriff
+	RoleThief
+	RoleCupid
+	RoleLittleGirl
+	RoleHunter
+	RoleSheriff
 )

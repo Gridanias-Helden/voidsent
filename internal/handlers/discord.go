@@ -65,7 +65,7 @@ func (d *Discord) Callback(w http.ResponseWriter, r *http.Request) {
 	state := r.FormValue("state")
 	if timestamp, ok := d.KV[state]; !ok || time.Now().After(timestamp.Add(5*time.Minute)) {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("State does not match or is expired."))
+		log.Println("State does not match or is expired.")
 		return
 	}
 
@@ -75,36 +75,40 @@ func (d *Discord) Callback(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(err.Error()))
+		log.Println(err)
 		return
 	}
 
-	// Use the access token, here we use it to get the logged in user's info.
+	// Use the access token, here we use it to get the logged-in user's info.
 	res, err := d.OAuth.Client(context.Background(), token).Get("https://discord.com/api/users/@me")
 
 	if err != nil || res.StatusCode != 200 {
 		w.WriteHeader(http.StatusInternalServerError)
 		if err != nil {
-			w.Write([]byte(err.Error()))
+			log.Println(err)
 		} else {
-			w.Write([]byte(res.Status))
+			log.Println(err)
 		}
 		return
 	}
 
-	defer res.Body.Close()
+	defer func() {
+		if err := res.Body.Close(); err != nil {
+			log.Println(err)
+		}
+	}()
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(err.Error()))
+		log.Println(err)
 		return
 	}
 
 	var user discordUser
 	if err := json.Unmarshal(body, &user); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(err.Error()))
+		log.Println(err)
 		return
 	}
 

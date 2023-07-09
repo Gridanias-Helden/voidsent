@@ -32,11 +32,6 @@ func main() {
 		log.Fatalln("redis error", err)
 	}
 
-	// yamlService, err := services.NewYAML("./store.yml")
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
-
 	//memoryManager := services.NewMemory()
 	redisManager := services.NewRedis(redisClient)
 

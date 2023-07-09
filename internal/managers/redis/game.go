@@ -71,5 +71,10 @@ func (rm *GameManager) SaveGame(ctx context.Context, game *models.Game) (*models
 }
 
 func (rm *GameManager) DeleteGame(ctx context.Context, game *models.Game) error {
+	err := rm.Client.Do(ctx, radix.Cmd(nil, "HDEL", "game", game.ID))
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

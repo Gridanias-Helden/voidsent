@@ -33,13 +33,17 @@ type WebSocket struct {
 }
 
 func (ws *WebSocket) HTTPRequest(w http.ResponseWriter, r *http.Request) {
-	ws.Melody.HandleRequest(w, r)
+	if err := ws.Melody.HandleRequest(w, r); err != nil {
+		log.Printf("handle request: %v", err)
+	}
 }
 
 func (ws *WebSocket) Connect(s *melody.Session) {
 	session, ok := s.Request.Context().Value(middleware.SessionKey).(*models.Session)
 	if !ok {
-		s.Close()
+		if err := s.Close(); err != nil {
+			log.Printf("close err %s", err)
+		}
 		return
 	}
 
@@ -73,13 +77,13 @@ func (ws *WebSocket) Connect(s *melody.Session) {
 }
 
 func (ws *WebSocket) Message(s *melody.Session, msg []byte) {
-	clientIntf, ok := s.Get("session")
+	clientInf, ok := s.Get("session")
 	if !ok {
 		log.Printf("ws message: no session preset")
 		return
 	}
 
-	session, ok := clientIntf.(*models.Session)
+	session, ok := clientInf.(*models.Session)
 	if !ok {
 		log.Printf("ws message: session invalid")
 		return
@@ -116,14 +120,29 @@ func (ws *WebSocket) Message(s *melody.Session, msg []byte) {
 			return
 		}
 
-		err = ws.Melody.BroadcastFilter([]byte("New GAME CREATED"), func(s *melody.Session) bool {
-			clientIntf, ok := s.Get("session")
+		games, err := ws.Service.LoadAllGames(s.Request.Context())
+		if err != nil {
+			log.Printf("load lobby: %v", err)
+			return
+		}
+
+		msg, err := json.Marshal(WebSocketMessage{
+			Type:  "lobby",
+			Lobby: games,
+		})
+
+		if err != nil {
+			log.Printf("encode err %s", err)
+			return
+		}
+		err = ws.Melody.BroadcastFilter(msg, func(s *melody.Session) bool {
+			clientInf, ok := s.Get("session")
 			if !ok {
 				log.Printf("ws message: no session preset")
 				return false
 			}
 
-			session, ok := clientIntf.(*models.Session)
+			session, ok := clientInf.(*models.Session)
 			if !ok {
 				log.Printf("ws message: session invalid")
 				return false
@@ -136,12 +155,14 @@ func (ws *WebSocket) Message(s *melody.Session, msg []byte) {
 		}
 
 		content := fmt.Sprintf(`{"type": "joinRoom", "id": %s }`, game.ID)
-		s.Write([]byte(content))
+		if err := s.Write([]byte(content)); err != nil {
+			log.Printf("write err %s", err)
+		}
 	}
 
 	log.Printf("received (text): %s", string(msg))
 }
 
 func (ws *WebSocket) MessageBinary(s *melody.Session, msg []byte) {
-	log.Printf("received (binary): %s", string(msg))
+	ws.Message(s, msg)
 }

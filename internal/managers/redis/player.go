@@ -40,7 +40,26 @@ func (rm *PlayerManager) LoadPlayerByID(ctx context.Context, id string) (*models
 }
 
 func (rm *PlayerManager) LoadAllPlayers(ctx context.Context) ([]*models.Player, error) {
-	return nil, nil
+	var playerList map[string]string
+
+	err := rm.Client.Do(ctx, radix.Cmd(&playerList, "HGETALL", "player"))
+	if err != nil {
+		return nil, err
+	}
+
+	players := make([]*models.Player, len(playerList))
+	index := 0
+	for _, v := range playerList {
+		var p models.Player
+		err = json.Unmarshal([]byte(v), &p)
+		if err != nil {
+			return nil, err
+		}
+		players[index] = &p
+		index++
+	}
+
+	return players, nil
 }
 
 func (rm *PlayerManager) SavePlayer(ctx context.Context, player *models.Player) (*models.Player, error) {
@@ -60,5 +79,9 @@ func (rm *PlayerManager) SavePlayer(ctx context.Context, player *models.Player) 
 }
 
 func (rm *PlayerManager) DeletePlayer(ctx context.Context, player *models.Player) error {
+	if err := rm.Client.Do(ctx, radix.Cmd(nil, "HDEL", "player", player.ID)); err != nil {
+		return err
+	}
+
 	return nil
 }

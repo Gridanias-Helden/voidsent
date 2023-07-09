@@ -23,3 +23,5 @@ go.work
 # directories
 .directory
 .env
+.idea
+.vscode

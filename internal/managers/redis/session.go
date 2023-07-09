@@ -37,7 +37,26 @@ func (rm *SessionManager) LoadSessionByID(ctx context.Context, id string) (*mode
 }
 
 func (rm *SessionManager) LoadAllSessions(ctx context.Context) ([]*models.Session, error) {
-	return nil, nil
+	var sessionList map[string]string
+
+	err := rm.Client.Do(ctx, radix.Cmd(&sessionList, "HGETALL", "player"))
+	if err != nil {
+		return nil, err
+	}
+
+	sessions := make([]*models.Session, len(sessionList))
+	index := 0
+	for _, v := range sessionList {
+		var s models.Session
+		err = json.Unmarshal([]byte(v), &s)
+		if err != nil {
+			return nil, err
+		}
+		sessions[index] = &s
+		index++
+	}
+
+	return sessions, nil
 }
 
 func (rm *SessionManager) SaveSession(ctx context.Context, session *models.Session) (*models.Session, error) {
@@ -55,5 +74,9 @@ func (rm *SessionManager) SaveSession(ctx context.Context, session *models.Sessi
 }
 
 func (rm *SessionManager) DeleteSession(ctx context.Context, session *models.Session) error {
+	if err := rm.Client.Do(ctx, radix.Cmd(nil, "HDEL", "session", session.ID)); err != nil {
+		return err
+	}
+
 	return nil
 }

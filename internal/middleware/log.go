@@ -84,7 +84,7 @@ func (sr *SizeRequest) Close() error {
 
 func WithLogging(h http.Handler) http.Handler {
 	logFn := func(rw http.ResponseWriter, r *http.Request) {
-		srec := &SizeRecorder{
+		rec := &SizeRecorder{
 			ResponseWriter: rw,
 			Status:         200,
 			Size:           0,
@@ -98,8 +98,8 @@ func WithLogging(h http.Handler) http.Handler {
 			ip, _, _ = net.SplitHostPort(r.RemoteAddr)
 		)
 
-		sreq := &SizeRequest{Source: r.Body}
-		r.Body = sreq
+		req := &SizeRequest{Source: r.Body}
+		r.Body = req
 		log.Printf(
 			format,
 			"IN",
@@ -112,7 +112,7 @@ func WithLogging(h http.Handler) http.Handler {
 			uri,
 		)
 
-		h.ServeHTTP(srec, r) // serve the original request
+		h.ServeHTTP(rec, r) // serve the original request
 
 		duration := time.Since(start).Round(time.Millisecond)
 
@@ -128,10 +128,10 @@ func WithLogging(h http.Handler) http.Handler {
 		log.Printf(
 			format,
 			"OUT",
-			srec.Status,
+			rec.Status,
 			method,
-			sreq.Size,
-			srec.Size,
+			req.Size,
+			rec.Size,
 			duration,
 			ip,
 			uri,
