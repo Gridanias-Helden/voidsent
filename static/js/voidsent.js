@@ -8,7 +8,9 @@ export class Voidsent {
         this.ws.onmessage = this.onmessage.bind(this);
         this.ws.onclose = this.onclose.bind(this);
 
-        this.rooms = [];
+        this.lobby = [];
+        this.page = "lobby";
+        this.room = null;
     }
 
     onmessage(ev) {
@@ -16,7 +18,7 @@ export class Voidsent {
         let data = JSON.parse(ev.data);
 
         if (data.type === "lobby") {
-            this.rooms = data.lobby;
+            this.lobby = data.lobby;
             m.redraw();
         }
     }

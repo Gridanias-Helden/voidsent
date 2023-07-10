@@ -1,5 +1,6 @@
 import {Voidsent} from "/js/voidsent.js";
 import {Lobby} from "/js/components/lobby.js";
+import {Room} from "/js/components/room.js";
 
 let client = new Voidsent();
 
@@ -13,8 +14,16 @@ document.querySelector("#create-game").addEventListener("click", function () {
 
 m.mount(document.querySelector('#lobby'), {
 	view: (vnode) => {
-		return m(Lobby, {
-			rooms: client.rooms
-		})
+		switch (client.page) {
+			case "lobby":
+				return m(Lobby, {
+					rooms: client.lobby
+				});
+
+			case "room":
+				return m(Room, {
+					room: client.room
+				});
+		}
 	}
 })
