@@ -1,3 +1,8 @@
+@import url("./row.css");
+@import url("./lobby.css");
+@import url("./room.css");
+@import url("./button.css");
+
 * {
 	font-family: sans-serif;
 }
@@ -5,12 +10,14 @@
 body {
 	align-items:     center;
 	display:         flex;
+	flex-direction: column;
 	height:          100vh;
 	justify-content: center;
 	margin:          0;
 	overflow:        hidden;
 	padding:         0;
 	width:           100vw;
+	background:      url("/assets/images/background.jpg");
 }
 
 h1 {
@@ -20,9 +27,9 @@ h1 {
 	text-align: center;
 }
 
-#day {
+#background {
 	background: rgb(28, 245, 77);
-	background: linear-gradient(0deg, rgba(28, 245, 77, 1) 0%, rgba(18, 109, 155, 1) 10%, rgba(18, 109, 155, 1) 90%, rgba(0, 0, 0, 1) 100%);
+	background: linear-gradient(0deg, rgba(28, 245, 77, 1) 0%, rgba(18, 109, 155, 1) 20%, rgba(18, 109, 155, 1) 90%, rgba(0, 0, 0, 1) 100%);
 	height:     100vh;
 	left:       0;
 	position:   absolute;
@@ -30,164 +37,85 @@ h1 {
 	width:      100vw;
 }
 
-#night {
-	background: rgb(28, 245, 77);
-	background: linear-gradient(0deg, rgba(18, 109, 155, 0) 0%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 100%);
-	height:     100vh;
-	left:       0;
-	position:   absolute;
-	top:        -100vh;
-	width:      100vw;
-}
+/*#night {*/
+/*	background: rgb(28, 245, 77);*/
+/*	background: linear-gradient(0deg, rgba(18, 109, 155, 0) 0%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 100%);*/
+/*	height:     100vh;*/
+/*	left:       0;*/
+/*	position:   absolute;*/
+/*	top:        -100vh;*/
+/*	width:      100vw;*/
+/*}*/
 
 #content {
 	align-content:  center;
-	background:     white;
+	background:     rgba(255, 255, 255, 0.8);
 	border:         10px solid black;
 	border-radius:  20px;
 	box-shadow:     0 0 20px rgba(0, 0, 0, 0.5);
 	display:        flex;
 	flex-direction: column;
-	height:         calc(90vh - 40px);
+	height:         80vh;
 	padding:        20px;
 	position:       relative;
-	width:          calc(50vw - 40px);
+	width:          80vw;
 }
 
-.dialog-body label {
-	display: block;
-}
+/*.dialog-body label {*/
+/*	display: block;*/
+/*}*/
 
-.row button, dialog button {
-	background:    #556cff;
-	border:        0;
-	border-radius: 5px;
-	box-shadow:    0 0 5px rgba(0, 0, 0, 0.5);
-	color:         white;
-	cursor:        pointer;
-	font-size:     1.2em;
-	font-weight:   bold;
-	outline:       none;
-}
+/*#new-game {*/
+/*	background:    #556cff;*/
+/*	border:        0;*/
+/*	border-radius: 20px;*/
+/*	box-shadow:    0 0 20px rgba(0, 0, 0, 0.5);*/
+/*	color:         white;*/
+/*	cursor:        pointer;*/
+/*	font-size:     1.5rem;*/
+/*	font-weight:   bold;*/
+/*	outline:       none;*/
+/*}*/
 
-.row button:hover {
-	background: white;
-	color:      #556cff;
-}
+/*#new-game:hover {*/
+/*	background: white;*/
+/*	color:      #556cff;*/
+/*}*/
 
-#new-game {
-	background:    #556cff;
-	border:        0;
-	border-radius: 20px;
-	box-shadow:    0 0 20px rgba(0, 0, 0, 0.5);
-	color:         white;
-	cursor:        pointer;
-	font-size:     1.5rem;
-	font-weight:   bold;
-	outline:       none;
-}
+/*.to-night {*/
+/*	animation: night 5s forwards;*/
+/*}*/
 
-#new-game:hover {
-	background: white;
-	color:      #556cff;
-}
+/*.from-night {*/
+/*	animation: night 5s backwards;*/
+/*}*/
 
-.to-night {
-	animation: night 5s forwards;
-}
+/*.dialog-content {*/
+/*	align-items:    center;*/
+/*	display:        flex;*/
+/*	flex-direction: column;*/
+/*}*/
 
-.from-night {
-	animation: night 5s backwards;
-}
+/*.dialog-body {*/
+/*	display:        flex;*/
+/*	flex-direction: column;*/
+/*	!* align-items: center; *!*/
+/*	margin-bottom:  10px;*/
+/*	margin-top:     10px;*/
+/*}*/
 
-#lobby {
-	border:         2px solid black;
-	border-radius:  20px;
-	box-shadow:     0 0 20px rgba(0, 0, 0, 0.5);
-	flex-direction: column;
-	flex-grow:      1;
-	margin-bottom:  30px;
-	overflow:       scroll;
-	padding:        20px;
-}
+/*.dialog-footer {*/
+/*	display:         flex;*/
+/*	flex-direction:  row;*/
+/*	justify-content: space-between;*/
+/*	width:           100%;*/
+/*}*/
 
-.row {
-	border-left:  1px solid black;
-	border-right: 1px solid black;
-	display:      flex;
-	padding:      10px;
-	width:        calc(100% - 20px);
-}
-
-.row:nth-child(odd) {
-	background: #eeeeee;
-}
-
-.row:first-child {
-	background:    #aaaaaa;
-	border-bottom: 1px solid black;
-	border-top:    1px solid black;
-	color:         white;
-	font-size:     1.1em;
-	font-weight:   bold;
-}
-
-.row:last-child {
-	border-bottom: 1px solid black;
-}
-
-.row div:first-child {
-	flex-grow: 1;
-}
-
-.row div:last-child {
-	flex-grow:  0;
-	text-align: center;
-	width:      100px;
-}
-
-#lobby table {
-	display: flex;
-	width:   100%;
-}
-
-#lobby table tr {
-	display: flex;
-	width:   100%;
-}
-
-#lobby table tr td {
-	align-items:     center;
-	display:         flex;
-	justify-content: center;
-}
-
-.dialog-content {
-	align-items:    center;
-	display:        flex;
-	flex-direction: column;
-}
-
-.dialog-body {
-	display:        flex;
-	flex-direction: column;
-	/* align-items: center; */
-	margin-bottom:  10px;
-	margin-top:     10px;
-}
-
-.dialog-footer {
-	display:         flex;
-	flex-direction:  row;
-	justify-content: space-between;
-	width:           100%;
-}
-
-@keyframes night {
-	0% {
-		top: -100vh;
-	}
-	100% {
-		top: 0;
-	}
-}
+/*@keyframes night {*/
+/*	0% {*/
+/*		top: -100vh;*/
+/*	}*/
+/*	100% {*/
+/*		top: 0;*/
+/*	}*/
+/*}*/

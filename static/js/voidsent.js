@@ -1,46 +1,85 @@
-export class Voidsent {
-    constructor() {
-        let proto = window.location.protocol === "https:" ? "wss" : "ws";
-        this.ws = new WebSocket(`${proto}://${window.location.host}/ws`);
+class VoidClient {
+	constructor() {
+		let proto = window.location.protocol === "https:" ? "wss" : "ws";
+		this.ws = new WebSocket(`${proto}://${window.location.host}/ws`);
 
-        this.ws.onopen = this.onopen.bind(this);
-        this.ws.onerror = this.onerror.bind(this);
-        this.ws.onmessage = this.onmessage.bind(this);
-        this.ws.onclose = this.onclose.bind(this);
+		this.ws.onopen = this.onopen.bind(this);
+		this.ws.onerror = this.onerror.bind(this);
+		this.ws.onmessage = this.onmessage.bind(this);
+		this.ws.onclose = this.onclose.bind(this);
 
-        this.lobby = [];
-        this.page = "lobby";
-        this.room = null;
-    }
+		this.lobbyRcv = [];
+		this.joinRcv = [];
+		this.chatRcv = [];
+	}
 
-    onmessage(ev) {
-        console.log("data", ev.data);
-        let data = JSON.parse(ev.data);
+	onmessage(ev) {
+		console.log("data", ev.data);
+		let data = JSON.parse(ev.data);
 
-        if (data.type === "lobby") {
-            this.lobby = data.lobby;
-            m.redraw();
-        }
-    }
+		console.log(data);
 
-    onerror(ev) {
-        console.log("err", ev);
-    }
+		switch (data.type) {
+			case "lobby":
+				console.log("got lobby");
+				// this.lobby = data.lobby;
+				// this.page = "lobby";
+				// this.room = null;
+				break;
 
-    onclose(ev) {
-        console.log("connection closed", ev);
-    }
+			case "join":
+				console.log("join room");
+				for (let cb of this.joinRcv) {
+					cb(data.name);
+				}
+				// this.room = data.room;
+				// this.page = "room";
+				// this.lobby = [];
+				break;
+		}
+	}
 
-    onopen(ev) {
-        console.log("open", ev);
-    }
+	onerror(ev) {
+		console.log("err", ev);
+	}
 
-    newGame(name) {
-        this.ws.send(JSON.stringify({
-            type: "newGame",
-            newGame: {
-                name,
-            }
-        }))
-    }
+	onclose(ev) {
+		console.log("connection closed", ev);
+	}
+
+	onopen(ev) {
+		console.log("open", ev);
+	}
+
+	newGame(name, roles) {
+		this.ws.send(JSON.stringify({
+			type: "newGame",
+			voidsent: {
+				name,
+				roles,
+			}
+		}))
+	}
+
+	addEventListener(event, cb) {
+		if (!cb) {
+			return;
+		}
+
+		switch (event) {
+			case "lobby":
+				this.lobbyRcv.push(cb);
+				break;
+
+			case "chat":
+				this.chatRcv.push(cb);
+				break;
+
+			case "join":
+				this.joinRcv.push(cb);
+				break;
+		}
+	}
 }
+
+export const client = new VoidClient();

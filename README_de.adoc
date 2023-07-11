@@ -1,0 +1,102 @@
+= Nichtsgesandte in Gridania
+
+Einige Nichtsgesandte haben sich in Gridania eingeschlichen - einem friedlichen kleinen Dorf. +
+Sie haben einige der Dorfbewohner übernommen und eliminieren weiterhin die Bürger. +
+Aber sie zu finden ist nicht so einfach, da sie sich als ihre ersten Opfer verkleidet haben. +
+Bis sie alle Nichtsgesandten finden und entfernen, leidet jede Nacht ein Bürger unter der Hand der Nichtsgesandten. +
+
+Können die Bürger alle Nichtsgesandten identifizieren und entfernen, bevor sie ausgelöscht werden?
+
+== Regeln
+
+Am Anfang wird jeder Spieler eine <<roles,Rolle>> zugewiesen. Jede Nacht entfernen die <<Voidsent,Nichtsgesandten>> einen <<Citizen,Bürger>> bis keine Bürger mehr übrig sind oder die Bürger alle Nichtsgesandten entfernt haben.
+
+== Spielablauf
+
+
+Das Spiel ist in drei Phasen unterteilt:
+
+- Vorbereitung
+- Nacht
+- Tag
+
+Die Vorbereitungen werden einmal am Anfang des Spiels durchgeführt. Die anderen beiden wechseln sich ab.
+
+=== Nacht
+
+Zu Beginn der Nacht entscheidet der <<Fortune Teller,Wahrsager>> wessen Rolle er/sie sehen möchte. +
+Die Rolle der Person wird ihm/ihr gezeigt und er/sie kann versuchen diese Information zu nutzen um die anderen Bürger zu überzeugen. +
+Wenn er/sie die Nacht überlebt.
+
+Als nächstes sind die <<Voidsent,Nichtsgesandten>> an der Reihe. Sie entscheiden, welcher Bürger entfernt wird. +
+Wenn sie sich nicht einigen können, wird niemand entfernt.
+
+Zuletzt ist die <<Witch,Hexe>> an der Reihe. Sie wird darüber informiert, welcher Bürger entfernt wird. +
+Sie kann diese Information nutzen, um den Bürger zu retten. +
+Wenn sie sich dazu entscheidet, ist diese Fähigkeit verbraucht. +
+Zusätzlich kann sie einen Bürger vergiften und aus dem Spiel entfernen.
+
+Danach werden die Bürger von Gridania von einem neuen Tag begrüßt. Zumindest für die verbleibenden Bürger.
+
+=== Tag
+
+Zu Beginn des Tages wird bekannt gegeben, wer in der Nacht entfernt wurde. Es wird nicht bekannt gegeben, *wie* er/sie entfernt wurde. +
+Die Nichtsgesandten verhalten sich nun wie die anderen Bürger und versuchen den Tag zu überleben. +
+Die anderen Bürger versuchen dann einen Nichtsgesandten zu entfernen.
+
+Dies erreichen sie durch Diskutieren, lügen, bluffen etc.
+
+Danach stimmen alle Bürger (und Nichtsgesandten) darüber ab, wen sie entfernen wollen. Diese Abstimmung ist öffentlich. +
+Am Ende wird die tatsächliche Rolle des entfernten Bürgers bekannt gegeben.
+
+Sind alle Nichtsgesandten entfernt, gewinnen die Bürger. Sind alle Bürger entfernt, gewinnen die Nichtsgesandten.
+
+Sollten noch Bürger und Nichtsgesandte übrig sein, bricht eine neue Nacht über Gridania herein.
+
+== Roles [[roles]]
+
+There are currently 4 roles:
+
+- <<Voidsent>>
+- <<Citizen>>
+- <<Fortune Teller>>
+- <<Witch>>
+- <<Hunter>>
+- <<Cupid>>
+
+=== Voidsent
+
+Every night the voidsent decide on their victim and eliminate it. Said victim can't take part from the next morning onwards.
+
+=== Fortune Teller
+
+Every night the fortune-teller can decide who's true identity he/she wishes to see. She can then try to use this knowledge to convince the other citizens.
+
+=== Witch
+
+After the <<Voidsent,voidsent>> eliminate their victim, the witch can save him/her (even herself). He/She can also brew a poison and use it to remove a voidsent/citizen (He/She may not know who is who). +
+Each of those actions can only be performed once in a game session.
+
+=== Citizen
+
+The citizens don't have special abilities. They can however debate to try to find out who might be a voidsent. +
+At the end of the day, they vote who is likely a voidsent and remove him/her from the game.
+
+After the citizen is removed his/her role will be revealed.
+
+=== Hunter
+
+The hunter is a special role. He/She is a citizen but when he/she is removed, he/she can take another citizen with him/her. +
+This is triggered right after the vote or if he/she is removed by the voidsent.
+
+=== Cupid
+
+The cupid is a special role. He/She is a citizen but at the beginning of the game he/she can decide on two citizens. +
+Those two citizens are now in love. If one of them is removed, the other one is removed as well. +
+This is triggered right after the vote or if one of them is removed by the voidsent. +
+The abilities of other special roles are not affected by this. +
+Meaning: If cupid decides on the hunter and the hunter got removed, the hunter can still take another citizen with him/her.
+
+== Credits
+
+This game is heavily inspired by the game "Les loups-garous de Thiercelieux" (also known as "The Werewolves of Millers Hollow" or "Die Werwölfe von Düsterwald") by Philippe des Phallières and Hervé Marly. The setting is changed to more fit the theme of the game "Final Fantasy XIV" by "Square Enix".

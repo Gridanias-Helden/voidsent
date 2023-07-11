@@ -9,9 +9,9 @@ Can the citizens identify and remove all voidsent before they are wiped out?
 
 == Rules
 
-At the begining, every player is assigned a <<roles,role>>. Every night, the <<Voidsent,voidsent>> remove a <<Citizen,citizen>> until there are no more citizens left or the citizens were able to remove all voidsent.
+At the beginning, every player is assigned a <<roles,role>>. Every night, the <<Voidsent,voidsent>> remove a <<Citizen,citizen>> until there are no more citizens left or the citizens were able to remove all voidsent.
 
-== Playthrough
+== Game Session
 
 The game is divided into three phases:
 
@@ -23,7 +23,7 @@ The preparations are done once at the start of the game. The other two cycle eac
 
 === Night
 
-At the beginning of the night, the fortune teller decides who's true nature he/she wants to know. +
+At the beginning of the night, the fortune-teller decides who's true nature he/she wants to know. +
 It is revealed to him/her and can now try to use this information to convince the other citizens. +
 If he/she survives the night.
 
@@ -59,6 +59,8 @@ There are currently 4 roles:
 - <<Citizen>>
 - <<Fortune Teller>>
 - <<Witch>>
+- <<Hunter>>
+- <<Cupid>>
 
 === Voidsent
 
@@ -66,12 +68,12 @@ Every night the voidsent decide on their victim and eliminate it. Said victim ca
 
 === Fortune Teller
 
-Every night the fortune teller can decide who's true identity he/she wishes to see. She can then try to use this knowledge to convince the other citizens.
+Every night the fortune-teller can decide who's true identity he/she wishes to see. She can then try to use this knowledge to convince the other citizens.
 
 === Witch
 
 After the <<Voidsent,voidsent>> eliminate their victim, the witch can save him/her (even herself). He/She can also brew a poison and use it to remove a voidsent/citizen (He/She may not know who is who). +
-Each of those actions can only performed once in a playthrough.
+Each of those actions can only be performed once in a game session.
 
 === Citizen
 
@@ -80,6 +82,19 @@ At the end of the day, they vote who is likely a voidsent and remove him/her fro
 
 After the citizen is removed his/her role will be revealed.
 
+=== Hunter
+
+The hunter is a special role. He/She is a citizen but when he/she is removed, he/she can take another citizen with him/her. +
+This is triggered right after the vote or if he/she is removed by the voidsent.
+
+=== Cupid
+
+The cupid is a special role. He/She is a citizen but at the beginning of the game he/she can decide on two citizens. +
+Those two citizens are now in love. If one of them is removed, the other one is removed as well. +
+This is triggered right after the vote or if one of them is removed by the voidsent. +
+The abilities of other special roles are not affected by this. +
+Meaning: If cupid decides on the hunter and the hunter got removed, the hunter can still take another citizen with him/her.
+
 == Credits
 
-This game is heavily inspired by the game "Les loups-garous de Thiercelieux" (also know as "The Werewolves of Millers Hollow" or "Die Werwölfe von Düsterwald") by Philippe des Phallières and Hervé Marly. The setting is changed to more fit the theme of the game "Final Fantasy XIV" by "Square Enix".
+This game is heavily inspired by the game "Les loups-garous de Thiercelieux" (also known as "The Werewolves of Millers Hollow" or "Die Werwölfe von Düsterwald") by Philippe des Phallières and Hervé Marly. The setting is changed to more fit the theme of the game "Final Fantasy XIV" by "Square Enix".

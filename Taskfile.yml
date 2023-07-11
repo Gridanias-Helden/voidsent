@@ -1,0 +1,49 @@
+version: '3'
+
+silent: true
+
+tasks:
+  # Run the dev server
+  run-dev:
+    aliases: [default]
+    env:
+      VERSION:
+        sh: get-next-version
+    cmds:
+      - go run -tags=dev -ldflags=-X=main.Version={{.VERSION}} .
+
+  # Run the production server
+  run-prod:
+    env:
+      VERSION:
+        sh: get-next-version
+    cmds:
+      - go run -ldflags=-X=main.Version={{.VERSION}} .
+  
+  test:
+    cmds:
+      - go test -v ./...
+
+  # Build the production server
+  build-prod:
+    cmds:
+      - go build -ldflags="-s -w -X=main.Version={{.VERSION}}" .
+    env:
+      VERSION:
+        sh: get-next-version
+      CGO_ENABLED: "0"
+
+  # Installs the required dependencies
+  install:
+    cmds:
+      - go install github.com/thenativeweb/get-next-version@latest
+
+  fmt:
+    env:
+      dirs:
+        sh: go list -f "{{"{{.Dir}}"}}" ./...
+      mods:
+        sh: cat go.mod | grep '^module ' | head -n 1 - | cut -d' ' -f2
+    cmds:
+      - echo ${mods}
+      - for dir in ${dirs}; do goimports -l -local "${mods}" -w ${dir}/*.go; done

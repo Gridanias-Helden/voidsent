@@ -5,36 +5,13 @@
 	<meta charset="UTF-8">
 	<title>Unter Gridanias Helden ...</title>
 	<link href="/css/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="/js/libs/mithril.min.js"></script>
 </head>
 
 <body>
-<div id="day">
-	<div id="night"></div>
-</div>
 
-<div id="content">
-	<h1>Unter Gridanias Helden ...</h1>
-	<div id="lobby"></div>
-	<button id="new-game">Neues Spiel</button>
-</div>
-
-<dialog id="new-game-dialog">
-	<div class="dialog-content">
-		<div class="dialog-header">
-			<h2>Neues Spiel erstellen</h2>
-		</div>
-		<div class="dialog-body">
-			<label for="game-name">Name des Spiels</label>
-			<input id="game-name" placeholder="Name des Spiels" type="text">
-		</div>
-		<div class="dialog-footer">
-			<button id="cancel-create-game" onclick="document.querySelector('#new-game-dialog').close()">Abbrechen
-			</button>
-			<button id="create-game">Auf gehts!</button>
-		</div>
-	</div>
-</dialog>
+<void-game></void-game>
 
 <script src="/js/game.js" type="module"></script>
 

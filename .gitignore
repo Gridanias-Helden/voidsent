@@ -7,6 +7,7 @@
 *.dll
 *.so
 *.dylib
+/voidsent
 
 # Test binary, built with `go test -c`
 *.test

@@ -1,0 +1,12 @@
+.room .row div:first-child {
+    width: 40px;
+}
+
+.room .row div:nth-child(2) {
+	flex-grow: 1;
+}
+
+.room .row div:last-child {
+	flex-grow:  0;
+	/* text-align: center; */
+}

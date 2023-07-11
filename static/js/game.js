@@ -1,29 +1,55 @@
-import {Voidsent} from "/js/voidsent.js";
-import {Lobby} from "/js/components/lobby.js";
-import {Room} from "/js/components/room.js";
+import { LitElement, html, css } from "./libs/lit.min.js";
+import "./lobby.js";
+import "./chat.js";
+import "./player-info.js";
 
-let client = new Voidsent();
-
-document.querySelector('#new-game').addEventListener('click', function () {
-	document.querySelector('#new-game-dialog').showModal();
-})
-
-document.querySelector("#create-game").addEventListener("click", function () {
-	client.newGame(document.querySelector("#game-name").value)
-})
-
-m.mount(document.querySelector('#lobby'), {
-	view: (vnode) => {
-		switch (client.page) {
-			case "lobby":
-				return m(Lobby, {
-					rooms: client.lobby
-				});
-
-			case "room":
-				return m(Room, {
-					room: client.room
-				});
-		}
+class VoidGame extends LitElement {
+	constructor() {
+		super();
 	}
-})
+
+	static styles = css`
+		:host {
+			display: block;
+			width: calc(100vw - 40px);
+		}
+
+		.right {
+			display: flex;
+			gap: 20px;
+		}
+		
+		.left {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+		}
+		
+		void-player-info{
+			flex-grow: 1;
+		}
+		
+		void-chat {
+			flex-grow: 2;
+		}
+		
+		void-lobby {
+			flex-grow: 2;
+		}
+	`
+
+	render() {
+		return html`
+			<div class="right">
+				<void-lobby></void-lobby>
+				<div class="left">
+					<void-player-info></void-player-info>
+					<void-chat></void-chat>
+				</div>
+			</div>
+		`
+	}
+}
+
+customElements.define("void-game", VoidGame);

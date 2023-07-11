@@ -1,23 +1,24 @@
 package main
 
 import (
-	"context"
+	// "context"
 	"log"
 	"net/http"
 	"time"
 
-	"github.com/mediocregopher/radix/v4"
-
-	"github.com/olahol/melody"
-
 	_ "github.com/joho/godotenv/autoload"
+	//"github.com/mediocregopher/radix/v4"
 	"github.com/ravener/discord-oauth2"
 	"golang.org/x/oauth2"
 
-	"github.com/gridanias-helden/voidsent/internal/config"
-	"github.com/gridanias-helden/voidsent/internal/handlers"
-	"github.com/gridanias-helden/voidsent/internal/middleware"
-	"github.com/gridanias-helden/voidsent/internal/services"
+	"github.com/gridanias-helden/voidsent/pkg/config"
+	"github.com/gridanias-helden/voidsent/pkg/middleware"
+	"github.com/gridanias-helden/voidsent/pkg/services"
+	"github.com/gridanias-helden/voidsent/pkg/services/chat"
+	"github.com/gridanias-helden/voidsent/pkg/services/session"
+	ws "github.com/gridanias-helden/voidsent/pkg/services/websocket"
+	"github.com/gridanias-helden/voidsent/pkg/storage/memory"
+	// "github.com/gridanias-helden/voidsent/pkg/storage/redis"
 )
 
 func main() {
@@ -26,16 +27,18 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	mel := melody.New()
-	redisClient, err := (radix.PoolConfig{}).New(context.Background(), "tcp", appConfig.RedisHost)
-	if err != nil {
-		log.Fatalln("redis error", err)
-	}
+	// redisClient, err := (radix.PoolConfig{}).New(context.Background(), "tcp", appConfig.RedisHost)
+	// if err != nil {
+	//	log.Fatalln("redis error", err)
+	//}
 
-	//memoryManager := services.NewMemory()
-	redisManager := services.NewRedis(redisClient)
+	// memoryManager := services.NewMemory()
+	//redisManager := redis.NewPlayers(redisClient)
+	sessionService := memory.NewSessions(24 * time.Hour)
+	broker := services.NewBroker()
+	broker.AddService("chat", chat.New(broker))
 
-	discordHandler := handlers.Discord{
+	discordHandler := session.Discord{
 		OAuth: &oauth2.Config{
 			RedirectURL:  appConfig.RedirectURL,
 			Scopes:       []string{discord.ScopeIdentify},
@@ -43,28 +46,29 @@ func main() {
 			ClientID:     appConfig.DiscordClientID,
 			ClientSecret: appConfig.DiscordClientSecret,
 		},
-		Service: redisManager,
-		KV:      make(map[string]time.Time),
+		KV: make(map[string]time.Time),
+		//Players:  redisManager,
+		Sessions: sessionService,
 	}
-	wsHandler := &handlers.WebSocket{
-		Melody:  mel,
-		Service: redisManager,
+	wsHandler := &ws.WebSocket{
+		Sessons: sessionService,
+		Broker:  broker,
+	}
+	guestHandler := &session.GuestLogin{
+		Sessions: sessionService,
 	}
 
 	router := &http.ServeMux{}
 	wrappedRouter := middleware.Chain(
 		router,
 		middleware.WithLogging,
-		middleware.WithSession(redisManager),
+		middleware.WithSession(sessionService),
 	)
-
-	mel.HandleConnect(wsHandler.Connect)
-	mel.HandleMessage(wsHandler.Message)
-	mel.HandleMessageBinary(wsHandler.MessageBinary)
 
 	router.Handle("/", http.FileServer(http.Dir(appConfig.Static)))
 	router.HandleFunc("/auth/login/discord", discordHandler.Auth)
 	router.HandleFunc("/auth/callback/discord", discordHandler.Callback)
+	router.HandleFunc("/auth/login/guest", guestHandler.Register)
 	router.HandleFunc("/auth/logout", discordHandler.Logout)
 	router.HandleFunc("/ws", wsHandler.HTTPRequest)
 

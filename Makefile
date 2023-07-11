@@ -8,9 +8,8 @@ test:
 	echo "... Tests"
 	@go test -v ./...
 
-format: 
+fmt: 
 	@echo "... Formats"
 	@for d in ${dirs}; do \
-		goimports -local ${mods} -l $${d}/*.go; \
-		goimports -local ${mods} -w $${d}/*.go; \
+		goimports -l -local ${mods} -w $${d}/*.go; \
 	done

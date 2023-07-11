@@ -1,0 +1,21 @@
+.lobby {
+	/* display: flex; */
+	border:         2px solid black;
+	border-radius:  20px;
+	box-shadow:     0 0 20px rgba(0, 0, 0, 0.5);
+	flex-direction: column;
+	flex-grow:      1;
+	overflow:       scroll;
+	padding:        20px;
+	background: white;
+}
+
+.lobby .row div:first-child {
+	flex-grow: 1;
+}
+
+.lobby .row div:last-child {
+	flex-grow:  0;
+	text-align: center;
+	/* width:      100px; */
+}
