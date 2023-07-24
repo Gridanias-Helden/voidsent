@@ -7,7 +7,7 @@ import (
 	"time"
 
 	_ "github.com/joho/godotenv/autoload"
-	//"github.com/mediocregopher/radix/v4"
+	// "github.com/mediocregopher/radix/v4"
 	"github.com/ravener/discord-oauth2"
 	"golang.org/x/oauth2"
 
@@ -30,15 +30,15 @@ func main() {
 	// redisClient, err := (radix.PoolConfig{}).New(context.Background(), "tcp", appConfig.RedisHost)
 	// if err != nil {
 	//	log.Fatalln("redis error", err)
-	//}
+	// }
 
 	// memoryManager := services.NewMemory()
-	//redisManager := redis.NewPlayers(redisClient)
+	// redisManager := redis.NewPlayers(redisClient)
 	sessionService := memory.NewSessions(24 * time.Hour)
 	broker := services.NewBroker()
 	broker.AddService("chat", chat.New(broker))
 
-	discordHandler := session.Discord{
+	discordHandler := &session.Discord{
 		OAuth: &oauth2.Config{
 			RedirectURL:  appConfig.RedirectURL,
 			Scopes:       []string{discord.ScopeIdentify},
@@ -47,7 +47,7 @@ func main() {
 			ClientSecret: appConfig.DiscordClientSecret,
 		},
 		KV: make(map[string]time.Time),
-		//Players:  redisManager,
+		// Players:  redisManager,
 		Sessions: sessionService,
 	}
 	wsHandler := &ws.WebSocket{
