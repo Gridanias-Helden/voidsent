@@ -33,13 +33,11 @@ func (c *chatHandler) Send(from string, to string, topic string, body any) {
 			return
 		}
 
-		msg := map[string]any{"room": "lobby", "name": sess.Session.Username}
-
-		c.publish("lobby", to, "room:join", msg)
-
 		c.users[from] = sess
 		c.rooms[from] = "lobby"
-		c.broker.Send(to, from, "room:join", msg)
+
+		c.publish("lobby", to, "room:join", map[string]any{"room": "lobby", "name": sess.Session.Username, "avatar": sess.Session.Avatar})
+		c.broker.Send(to, from, "session", map[string]any{"name": sess.Session.Username, "avatar": sess.Session.Avatar})
 
 	case "room:join":
 		room, ok := body.(string)

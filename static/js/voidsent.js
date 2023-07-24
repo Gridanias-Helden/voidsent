@@ -11,6 +11,7 @@ class VoidClient {
 		this.lobbyRcv = [];
 		this.joinRcv = [];
 		this.chatRcv = [];
+		this.sessionRcv = [];
 	}
 
 	onmessage(ev) {
@@ -27,15 +28,18 @@ class VoidClient {
 				// this.room = null;
 				break;
 
-			case "join":
+			case "room:join":
 				console.log("join room");
 				for (let cb of this.joinRcv) {
-					cb(data.name);
+					cb(data.body);
 				}
-				// this.room = data.room;
-				// this.page = "room";
-				// this.lobby = [];
 				break;
+
+			case "session":
+				console.log("got session");
+				for (let cb of this.sessionRcv) {
+					cb(data.body);
+				}
 		}
 	}
 
@@ -75,8 +79,12 @@ class VoidClient {
 				this.chatRcv.push(cb);
 				break;
 
-			case "join":
+			case "room:join":
 				this.joinRcv.push(cb);
+				break;
+
+			case "session":
+				this.sessionRcv.push(cb);
 				break;
 		}
 	}

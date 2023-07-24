@@ -29,17 +29,17 @@ type WSConn struct {
 }
 
 func (wsc *WSConn) Send(from string, to string, topic string, body any) {
-	log.Printf("Got Msg: %+v from %q. It's about %q", body, from, topic)
-
-	switch from {
-	case "chat":
-		msg, ok := body.(string)
-		if !ok {
-			return
-		}
-
-		wsc.chat(topic, msg)
+	data, err := json.Marshal(map[string]any{
+		"type": topic,
+		"body": body,
+		"from": from,
+	})
+	if err != nil {
+		log.Printf("Error marshal: %v", err)
+		return
 	}
+
+	wsc.Msg <- data
 }
 
 func (wsc *WSConn) ReadLoop() {

@@ -1,8 +1,18 @@
 import {LitElement, html, css} from "./libs/lit.min.js";
+import { client } from "./voidsent.js";
 
 class PlayerInfo extends LitElement {
+	static properties = {
+		playerInfo: {state: true},
+	}
+
 	constructor() {
 		super();
+
+		this.playerInfo = { name: "<Unbekannnt>", avatar: "" };
+		client.addEventListener("session", (playerInfo) => {
+			this.playerInfo = playerInfo
+		})
 	}
 
 	static styles = css`
@@ -13,11 +23,20 @@ class PlayerInfo extends LitElement {
 			color: white;
 			border: 5px solid white;
 		}
+		
+		div {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
 	`
 
 	render() {
 		return html`
-			<div>PLAYER-INFO</div>
+			<div>
+				<img src="${this.playerInfo.avatar}" alt="" />
+				<span>${this.playerInfo.name}</span>
+			</div>
 		`
 	}
 }

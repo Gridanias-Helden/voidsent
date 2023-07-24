@@ -11,9 +11,9 @@ class Chat extends LitElement {
 
 		this.history = [];
 
-		client.addEventListener("join", (name) => {
-			console.log(`${name} joined!`);
-			this.history = [ ...this.history, html`<b>${name}</b> ist der Lobby beigetreten.`]
+		client.addEventListener("room:join", ({ name, room }) => {
+			console.log(`${name} joined ${room}!`);
+			this.history = [ ...this.history, html`<b>${name}</b> ist ${room} beigetreten.`]
 		})
 	}
 
@@ -42,6 +42,25 @@ class Chat extends LitElement {
 		.input {
 			background-color: blue;
 			flex-grow: 0;
+			display: flex;
+		}
+		
+		.input > input {
+			flex-grow: 3;
+			border: 1x solid black;
+			border-radius: 5px;
+			padding: 5px;
+			font-size: 1.2em;
+		}
+		
+		.input > button {
+			flex-grow: 1;
+			border: 1x solid black;
+			border-radius: 5px;
+			padding: 5px;
+			font-size: 1.2em;
+			background-color: cyan;
+			color: black;
 		}
 	`
 
@@ -51,7 +70,10 @@ class Chat extends LitElement {
 				<div class="history">
 					${this.history.map((entry) => html`<div>${entry}</div>`)}
 				</div>
-				<div class="input">INPUT</div>
+				<div class="input">
+					<input type="text" placeholder="Nachricht eingeben...">
+					<button>Senden</button>
+				</div>
 			</div>
 		`
 	}

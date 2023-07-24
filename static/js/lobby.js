@@ -3,6 +3,10 @@ import { client } from "./voidsent.js";
 import "./newgame.js";
 
 class VoidLobby extends LitElement {
+	static properties = {
+		lobby: {state: true},
+	}
+
 	constructor() {
 		super();
 
