@@ -290,7 +290,7 @@ func (gl *GuestLogin) Register(w http.ResponseWriter, r *http.Request) {
 		Updated:  time.Now().UTC(),
 	}
 
-	gl.Sessions.SaveSession(r.Context(), sess)
+	_, _ = gl.Sessions.SaveSession(r.Context(), sess)
 
 	sessionCookie := http.Cookie{
 		Name:     "voidsent_session",

@@ -45,13 +45,13 @@ func (wsc *WSConn) Send(from string, to string, topic string, body any) {
 func (wsc *WSConn) ReadLoop() {
 	defer func() {
 		wsc.Broker.RemoveService(wsc.ID)
-		wsc.Conn.Close()
+		_ = wsc.Conn.Close()
 	}()
 
 	wsc.Conn.SetReadLimit(1024)
-	wsc.Conn.SetReadDeadline(time.Now().Add(60 * time.Second))
+	_ = wsc.Conn.SetReadDeadline(time.Now().Add(60 * time.Second))
 	wsc.Conn.SetPongHandler(func(string) error {
-		wsc.Conn.SetReadDeadline(time.Now().Add(60 * time.Second))
+		_ = wsc.Conn.SetReadDeadline(time.Now().Add(60 * time.Second))
 
 		return nil
 	})
@@ -83,24 +83,24 @@ func (wsc *WSConn) WriteLoop() {
 	ticker := time.NewTicker(20 * time.Second)
 	defer func() {
 		ticker.Stop()
-		wsc.Conn.Close()
+		_ = wsc.Conn.Close()
 	}()
 
 	for {
 		select {
 		case msg, ok := <-wsc.Msg:
 			log.Printf("Sending msg: %s", msg)
-			wsc.Conn.SetWriteDeadline(time.Now().Add(10 * time.Second))
+			_ = wsc.Conn.SetWriteDeadline(time.Now().Add(10 * time.Second))
 			if !ok {
 				// Channel is closed
 				return
 			}
 
 			log.Printf("Write Message: %v", msg)
-			wsc.Conn.WriteMessage(websocket.TextMessage, msg)
+			_ = wsc.Conn.WriteMessage(websocket.TextMessage, msg)
 
 		case <-ticker.C:
-			wsc.Conn.SetWriteDeadline(time.Now().Add(10 * time.Second))
+			_ = wsc.Conn.SetWriteDeadline(time.Now().Add(10 * time.Second))
 			if err := wsc.Conn.WriteMessage(websocket.PingMessage, nil); err != nil {
 				log.Printf("Ping Error: %v", err)
 				return
