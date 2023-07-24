@@ -64,7 +64,6 @@ func (d *Discord) Callback(w http.ResponseWriter, r *http.Request) {
 	// We exchange the code we got for an access token
 	// Then we can use the access token to do actions, limited to scopes we requested
 	token, err := d.OAuth.Exchange(context.Background(), r.FormValue("code"))
-
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)
@@ -73,7 +72,6 @@ func (d *Discord) Callback(w http.ResponseWriter, r *http.Request) {
 
 	// Use the access token, here we use it to get the logged-in user's info.
 	res, err := d.OAuth.Client(context.Background(), token).Get("https://discord.com/api/users/@me")
-
 	if err != nil || res.StatusCode != 200 {
 		w.WriteHeader(http.StatusInternalServerError)
 		if err != nil {
@@ -117,6 +115,7 @@ func (d *Discord) Callback(w http.ResponseWriter, r *http.Request) {
 		PlayerID: "discord:" + user.ID,
 		Avatar:   avatar,
 		Username: userName,
+		Updated:  time.Now().UTC(),
 	}
 
 	if _, err := d.Sessions.SaveSession(r.Context(), session); err != nil {
@@ -160,8 +159,6 @@ func (d *Discord) Logout(w http.ResponseWriter, r *http.Request) {
 		Name:     "voidsent_session",
 		Value:    "",
 		Path:     "/",
-		Expires:  time.Now().Add(-24 * time.Hour),
-		MaxAge:   -1,
 		HttpOnly: true,
 		Secure:   true,
 		SameSite: http.SameSiteDefaultMode,

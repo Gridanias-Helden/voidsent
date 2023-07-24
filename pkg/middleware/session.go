@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"log"
 	"net/http"
 	"strings"
 
@@ -18,6 +19,7 @@ func WithSession(sessions storage.Sessions) func(next http.Handler) http.Handler
 			c, err := r.Cookie("voidsent_session")
 			if (err != nil || c == nil) && !strings.HasPrefix(r.RequestURI, "/auth") {
 				// No session, log in ...
+				log.Printf("No session, redirecting to /auth/login/ ...")
 				http.Redirect(w, r, "/auth/login/", http.StatusTemporaryRedirect)
 				return
 			}
@@ -28,8 +30,9 @@ func WithSession(sessions storage.Sessions) func(next http.Handler) http.Handler
 			}
 
 			session, err := sessions.SessionByID(r.Context(), c.Value)
-			if err != nil && !strings.HasPrefix(r.RequestURI, "/auth/login") {
+			if err != nil && !strings.HasPrefix(r.RequestURI, "/auth") {
 				// Invalid session, log in again ...
+				log.Printf("Invalid session, redirecting to /auth/login/ ... %s / %+v", err, session)
 				http.Redirect(w, r, "/auth/login/", http.StatusTemporaryRedirect)
 				return
 			}
