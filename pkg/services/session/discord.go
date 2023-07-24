@@ -107,7 +107,7 @@ func (d *Discord) Callback(w http.ResponseWriter, r *http.Request) {
 
 	var avatar string
 	if user.Avatar != nil {
-		avatar = fmt.Sprintf("https://cdn.discordapp.com/avatars/%s/%s.png?size=64", user.ID, *user.Avatar)
+		avatar = fmt.Sprintf("https://cdn.discordapp.com/avatars/%s/%s.png?size=128", user.ID, *user.Avatar)
 	} else {
 		avatar = GuestAvatar()
 	}
