@@ -43,10 +43,7 @@ func (wsc *WSConn) Send(from string, to string, topic string, body any) {
 }
 
 func (wsc *WSConn) ReadLoop() {
-	defer func() {
-		wsc.Broker.RemoveService(wsc.ID)
-		_ = wsc.Conn.Close()
-	}()
+	defer wsc.Disconnect()
 
 	wsc.Conn.SetReadLimit(1024)
 	_ = wsc.Conn.SetReadDeadline(time.Now().Add(60 * time.Second))
@@ -83,7 +80,7 @@ func (wsc *WSConn) WriteLoop() {
 	ticker := time.NewTicker(20 * time.Second)
 	defer func() {
 		ticker.Stop()
-		_ = wsc.Conn.Close()
+		wsc.Disconnect()
 	}()
 
 	for {
@@ -122,7 +119,13 @@ func (wsc *WSConn) WriteLoop() {
 // }
 
 func (wsc *WSConn) Disconnect() {
-	log.Println("Disconnected")
+	if wsc.ID == "" {
+		return
+	}
+
+	wsc.Broker.Send(wsc.ID, "chat", "room:leave", wsc)
+	wsc.Broker.RemoveService(wsc.ID)
+	_ = wsc.Conn.Close()
 }
 
 func (wsc *WSConn) chat(topic string, msg string) {

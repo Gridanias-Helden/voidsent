@@ -15,6 +15,11 @@ class Chat extends LitElement {
 			console.log(`${name} joined ${room}!`);
 			this.history = [ ...this.history, html`<b>${name}</b> ist ${room} beigetreten.`]
 		})
+
+		client.addEventListener("room:leave", ({ name, room }) => {
+			console.log(`${name} left ${room}!`);
+			this.history = [ ...this.history, html`<b>${name}</b> hat ${room} verlassen.`]
+		})
 	}
 
 	static styles = css`

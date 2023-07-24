@@ -50,5 +50,4 @@ func (ws *WebSocket) HTTPRequest(w http.ResponseWriter, r *http.Request) {
 
 	ws.Broker.AddService(wsConn.ID, wsConn)
 	ws.Broker.Send(wsConn.ID, "chat", "lobby:join", wsConn)
-
 }

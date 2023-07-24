@@ -58,6 +58,17 @@ func (c *chatHandler) Send(from string, to string, topic string, body any) {
 
 		c.rooms[from] = room
 		c.broker.Send(to, from, topic, room)
+
+	case "room:leave":
+		sess, ok := body.(*services.WSConn)
+		if !ok {
+			log.Printf("No valid connection %t", body)
+			return
+		}
+
+		delete(c.rooms, from)
+		delete(c.users, from)
+		c.publish("lobby", to, "room:leave", map[string]any{"room": "lobby", "name": sess.Session.Username, "avatar": sess.Session.Avatar})
 	}
 }
 

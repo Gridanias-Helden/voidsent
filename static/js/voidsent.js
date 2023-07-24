@@ -10,6 +10,7 @@ class VoidClient {
 
 		this.lobbyRcv = [];
 		this.joinRcv = [];
+		this.leaveRcv = [];
 		this.chatRcv = [];
 		this.sessionRcv = [];
 	}
@@ -31,6 +32,13 @@ class VoidClient {
 			case "room:join":
 				console.log("join room");
 				for (let cb of this.joinRcv) {
+					cb(data.body);
+				}
+				break;
+
+			case "room:leave":
+				console.log("leave room");
+				for (let cb of this.leaveRcv) {
 					cb(data.body);
 				}
 				break;
@@ -81,6 +89,10 @@ class VoidClient {
 
 			case "room:join":
 				this.joinRcv.push(cb);
+				break;
+
+			case "room:leave":
+				this.leaveRcv.push(cb);
 				break;
 
 			case "session":
