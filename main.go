@@ -1,13 +1,11 @@
 package main
 
 import (
-	// "context"
 	"log"
 	"net/http"
 	"time"
 
 	_ "github.com/joho/godotenv/autoload"
-	// "github.com/mediocregopher/radix/v4"
 	"github.com/olahol/melody"
 	"github.com/ravener/discord-oauth2"
 	"golang.org/x/oauth2"
@@ -18,7 +16,6 @@ import (
 	"github.com/gridanias-helden/voidsent/pkg/services/session"
 	ws "github.com/gridanias-helden/voidsent/pkg/services/websocket"
 	"github.com/gridanias-helden/voidsent/pkg/storage/memory"
-	// "github.com/gridanias-helden/voidsent/pkg/storage/redis"
 )
 
 func main() {
@@ -29,13 +26,6 @@ func main() {
 
 	mel := melody.New()
 
-	// redisClient, err := (radix.PoolConfig{}).New(context.Background(), "tcp", appConfig.RedisHost)
-	// if err != nil {
-	//	log.Fatalln("redis error", err)
-	// }
-
-	// memoryManager := services.NewMemory()
-	// redisManager := redis.NewPlayers(redisClient)
 	sessionService := memory.NewSessions(24 * time.Hour)
 	broker := services.NewBroker()
 
@@ -47,8 +37,7 @@ func main() {
 			ClientID:     appConfig.DiscordClientID,
 			ClientSecret: appConfig.DiscordClientSecret,
 		},
-		KV: make(map[string]time.Time),
-		// Players:  redisManager,
+		KV:       make(map[string]time.Time),
 		Sessions: sessionService,
 	}
 	wsHandler := ws.New(sessionService, broker, mel)
