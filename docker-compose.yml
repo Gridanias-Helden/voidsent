@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  voidsent:
+    image: voidsent
+    build: .
+    ports:
+      - "80:80"
+    environment:
+      - VOIDSENT_DISCORD_CLIENT_ID=${VOIDSENT_DISCORD_CLIENT_ID}
+      - VOIDSENT_DISCORD_CLIENT_SECRET=${VOIDSENT_DISCORD_CLIENT_SECRET}
+      - VOIDSENT_HOST=${VOIDSENT_HOST}
+      - VOIDSENT_BIND=${VOIDSENT_BIND}
+      - VOIDSENT_DATA=${VOIDSENT_DATA}
+    volumes:
+      - ./static:/static
