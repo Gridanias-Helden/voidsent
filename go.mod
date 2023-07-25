@@ -6,6 +6,7 @@ require (
 	github.com/gorilla/websocket v1.5.0
 	github.com/joho/godotenv v1.5.1
 	github.com/oklog/ulid v1.3.1
+	github.com/olahol/melody v1.1.4
 	github.com/ravener/discord-oauth2 v0.0.0-20230514095040-ae65713199b3
 	golang.org/x/oauth2 v0.10.0
 )
