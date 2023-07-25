@@ -53,8 +53,8 @@ func main() {
 	)
 
 	router.Handle("/", http.FileServer(http.Dir(appConfig.Static)))
-	router.HandleFunc("/auth/login/discord", discordHandler.Auth)
-	router.HandleFunc("/auth/callback/discord", discordHandler.Callback)
+	// router.HandleFunc("/auth/login/discord", discordHandler.Auth) // Disable for now
+	// router.HandleFunc("/auth/callback/discord", discordHandler.Callback)
 	router.HandleFunc("/auth/login/guest", guestHandler.Register)
 	router.HandleFunc("/auth/logout", discordHandler.Logout)
 	router.HandleFunc("/ws", wsHandler.HTTPRequest)
