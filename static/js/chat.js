@@ -5,6 +5,7 @@ class Chat extends LitElement {
 	static properties = {
 		history: {state: true},
 		msg: {state: true},
+		self: {state: true},
 	}
 
 	time(t) {
@@ -16,14 +17,19 @@ class Chat extends LitElement {
 
 		this.history = [];
 
-		client.addEventListener("room:join", ({ time, name, room }) => {
+		this.self = { name: "", avatar: "" };
+		client.addEventListener("session", (playerInfo) => {
+			this.self = playerInfo
+		})
+
+		client.addEventListener("room:join", ({ time, from, room }) => {
 			console.log(`${name} joined ${room}!`);
-			this.history = [ ...this.history, html`[${this.time(time)}] <b>${name}</b> ist ${room} beigetreten.`]
+			this.history = [ ...this.history, html`[${this.time(time)}] <b>${from}</b> ist ${room} beigetreten.`]
 		})
 
-		client.addEventListener("room:leave", ({ time, name, room }) => {
-			console.log(`${name} left ${room}!`);
-			this.history = [ ...this.history, html`[${this.time(time)}] <b>${name}</b> hat ${room} verlassen.`]
+		client.addEventListener("room:leave", ({ time, from, room }) => {
+			console.log(`${from} left ${room}!`);
+			this.history = [ ...this.history, html`[${this.time(time)}] <b>${from}</b> hat ${room} verlassen.`]
 			this.history.sort((a, b) => {
 				if (a.time > b.time) {
 					return -1;
@@ -35,9 +41,9 @@ class Chat extends LitElement {
 			})
 		})
 
-		client.addEventListener("chat:all", ({ time, name, msg }) => {
-			console.log(`${name}: ${msg}`);
-			this.history = [ ...this.history, html`[${this.time(time)}] <b>${name}</b>: ${msg}`]
+		client.addEventListener("chat:all", ({ time, from, msg }) => {
+			console.log(`${from}: ${msg}`);
+			this.history = [ ...this.history, html`[${this.time(time)}] <b>${from}</b>: ${msg}`]
 			this.history.sort((a, b) => {
 				if (a.time > b.time) {
 					return -1;
@@ -49,9 +55,13 @@ class Chat extends LitElement {
 			})
 		})
 
-		client.addEventListener("chat:whisper", ({ time, name, msg }) => {
+		client.addEventListener("chat:whisper", ({ time, to, from, msg }) => {
 			console.log(`${name}: ${msg}`);
-			this.history = [ ...this.history, html`[${this.time(time)}] <i><b>${name} (flüstert dir zu)</b>: ${msg}</i>`]
+			let newEntry = html`[${this.time(time)}] <i><b>${from} flüstert dir zu</b>: ${msg}</i>`
+			if (from === this.self.from) {
+				newEntry = html`[${this.time(time)}] <i><b>Du flüsterst ${to} zu</b>: ${msg}</i>`
+			}
+			this.history = [ ...this.history, newEntry]
 			this.history.sort((a, b) => {
 				if (a.time > b.time) {
 					return -1;

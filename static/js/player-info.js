@@ -35,7 +35,7 @@ class PlayerInfo extends LitElement {
 		return html`
 			<div>
 				<img src="${this.playerInfo.avatar}" alt="" />
-				<span>${this.playerInfo.name}</span>
+				<span>${this.playerInfo.from}</span>
 			</div>
 		`
 	}

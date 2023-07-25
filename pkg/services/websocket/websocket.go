@@ -46,14 +46,14 @@ func (ws *WebSocket) HTTPRequest(w http.ResponseWriter, r *http.Request) {
 func (ws *WebSocket) Connect(s *melody.Session) {
 	session, ok := s.Request.Context().Value(middleware.SessionKey).(models.Session)
 	if !ok {
-		s.CloseWithMsg([]byte("no session found"))
+		_ = s.CloseWithMsg([]byte("no session found"))
 		return
 	}
 
 	joinMsg, _ := json.Marshal(wsMessage{
 		Body: map[string]string{
 			"avatar": session.Avatar,
-			"name":   session.Username,
+			"from":   session.Username,
 			"room":   "lobby",
 			"time":   time.Now().UTC().Format(time.RFC3339),
 		},
@@ -62,7 +62,7 @@ func (ws *WebSocket) Connect(s *melody.Session) {
 	sessionMsg, _ := json.Marshal(wsMessage{
 		Body: map[string]string{
 			"avatar": session.Avatar,
-			"name":   session.Username,
+			"from":   session.Username,
 			"time":   time.Now().UTC().Format(time.RFC3339),
 		},
 		Type: "session",
@@ -73,8 +73,8 @@ func (ws *WebSocket) Connect(s *melody.Session) {
 
 	time.Sleep(50 * time.Millisecond)
 
-	s.Write(sessionMsg)
-	ws.mel.BroadcastFilter(joinMsg, ws.toRoom("lobby"))
+	_ = s.Write(sessionMsg)
+	_ = ws.mel.BroadcastFilter(joinMsg, ws.toRoom("lobby"))
 }
 
 func (ws *WebSocket) Disconnect(s *melody.Session) {
@@ -91,14 +91,14 @@ func (ws *WebSocket) Disconnect(s *melody.Session) {
 	msg, _ := json.Marshal(map[string]any{
 		"body": map[string]string{
 			"avatar": session.Avatar,
-			"name":   session.Username,
+			"from":   session.Username,
 			"room":   room,
 			"time":   time.Now().UTC().Format(time.RFC3339),
 		},
 		"type": "room:leave",
 	})
 
-	ws.mel.BroadcastFilter(msg, ws.toRoom(room))
+	_ = ws.mel.BroadcastFilter(msg, ws.toRoom(room))
 
 	log.Printf("%s left", session.Username)
 }
@@ -137,22 +137,24 @@ func (ws *WebSocket) Message(s *melody.Session, msg []byte) {
 			newMsg, _ := json.Marshal(map[string]any{
 				"body": map[string]string{
 					"msg":  chatMsg,
-					"name": session.Username,
+					"from": session.Username,
+					"to":   to,
 					"time": time.Now().UTC().Format(time.RFC3339),
 				},
 				"type": "chat:whisper",
 			})
-			ws.mel.BroadcastFilter(newMsg, ws.toName(to))
+			_ = ws.mel.BroadcastFilter(newMsg, ws.toName(to))
+			_ = s.Write(newMsg)
 		} else {
 			newMsg, _ := json.Marshal(map[string]any{
 				"body": map[string]string{
 					"msg":  chatMsg,
-					"name": session.Username,
+					"from": session.Username,
 					"time": time.Now().UTC().Format(time.RFC3339),
 				},
 				"type": "chat:all",
 			})
-			ws.mel.BroadcastFilter(newMsg, ws.toRoom(room))
+			_ = ws.mel.BroadcastFilter(newMsg, ws.toRoom(room))
 		}
 	}
 }
