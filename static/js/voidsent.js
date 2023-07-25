@@ -11,7 +11,8 @@ class VoidClient {
 		this.lobbyRcv = [];
 		this.joinRcv = [];
 		this.leaveRcv = [];
-		this.chatRcv = [];
+		this.chatAllRcv = [];
+		this.chatWhisperRcv = [];
 		this.sessionRcv = [];
 	}
 
@@ -39,6 +40,20 @@ class VoidClient {
 			case "room:leave":
 				console.log("leave room");
 				for (let cb of this.leaveRcv) {
+					cb(data.body);
+				}
+				break;
+
+			case "chat:all":
+				console.log("got chat");
+				for (let cb of this.chatAllRcv) {
+					cb(data.body);
+				}
+				break;
+
+			case "chat:whisper":
+				console.log("got chat");
+				for (let cb of this.chatWhisperRcv) {
 					cb(data.body);
 				}
 				break;
@@ -83,8 +98,12 @@ class VoidClient {
 				this.lobbyRcv.push(cb);
 				break;
 
-			case "chat":
-				this.chatRcv.push(cb);
+			case "chat:all":
+				this.chatAllRcv.push(cb);
+				break;
+
+			case "chat:whisper":
+				this.chatWhisperRcv.push(cb);
 				break;
 
 			case "room:join":
