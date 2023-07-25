@@ -104,29 +104,42 @@ func (ws *WebSocket) Disconnect(s *melody.Session) {
 }
 
 func (ws *WebSocket) Message(s *melody.Session, msg []byte) {
+	session, ok := s.MustGet("session").(models.Session)
 	if !ok {
 		return
 	}
 
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Println(err)
+	room, ok := s.MustGet("room").(string)
+	if !ok {
 		return
 	}
 
-	wsConn := &services.WSConn{
-		ID:      "ws:" + sess.ID,
-		Broker:  ws.Broker,
-		Conn:    conn,
-		Msg:     make(chan []byte),
-		Session: sess,
+	var message wsMessage
+	err := json.Unmarshal(msg, &message)
+	if err != nil {
+		log.Printf("got message from %s (%s): %s with error: %v", session.ID, session.Username, msg, err)
+		return
 	}
-	go wsConn.ReadLoop()
-	go wsConn.WriteLoop()
-	time.Sleep(50 * time.Millisecond)
 
-	ws.Broker.AddService(wsConn.ID, wsConn)
-	ws.Broker.Send(wsConn.ID, "chat", "lobby:join", wsConn)
+	if room != "lobby" {
+		ws.broker.Send(session.ID, room, "msg", message.Body)
+		return
+	}
+
+	switch message.Type {
+	case "chat":
+		chatMsg, ok := message.Body["msg"]
+		if !ok {
+			return
+		}
+
+		if to, ok := message.Body["to"]; ok {
+			// Whisper to specific user
+			log.Printf("/w to %s", to)
+		} else {
+			ws.BroadcastRoom([]byte(chatMsg), room)
+		}
+	}
 }
 
 func (ws *WebSocket) BroadcastRoom(msg any, room string) {
