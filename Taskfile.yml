@@ -26,12 +26,12 @@ tasks:
 
   # Build the production server
   build-prod:
-    cmds:
-      - go build -ldflags="-s -w -X=main.Version={{.VERSION}}" .
     env:
       VERSION:
         sh: get-next-version
       CGO_ENABLED: "0"
+    cmds:
+      - go build -ldflags="-s -w -X=main.Version={{.VERSION}}" .
 
   # Installs the required dependencies
   install:
