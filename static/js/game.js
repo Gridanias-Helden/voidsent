@@ -24,6 +24,7 @@ class VoidGame extends LitElement {
 			display: flex;
 			flex-direction: column;
 			gap: 20px;
+			max-width: 30%;
 		}
 		
 		void-player-info{
