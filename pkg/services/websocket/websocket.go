@@ -50,31 +50,12 @@ func (ws *WebSocket) Connect(s *melody.Session) {
 		return
 	}
 
-	joinMsg, _ := json.Marshal(wsMessage{
-		Body: map[string]string{
-			"avatar": session.Avatar,
-			"from":   session.Username,
-			"room":   "lobby",
-			"time":   time.Now().UTC().Format(time.RFC3339),
-		},
-		Type: "room:join",
-	})
-	sessionMsg, _ := json.Marshal(wsMessage{
-		Body: map[string]string{
-			"avatar": session.Avatar,
-			"from":   session.Username,
-			"time":   time.Now().UTC().Format(time.RFC3339),
-		},
-		Type: "session",
-	})
-
 	s.Set("session", session)
 	s.Set("room", "lobby")
 
 	time.Sleep(50 * time.Millisecond)
 
-	_ = s.Write(sessionMsg)
-	_ = ws.mel.BroadcastFilter(joinMsg, ws.toRoom("lobby"))
+	ws.Join(s, session, "lobby")
 }
 
 func (ws *WebSocket) Disconnect(s *melody.Session) {
@@ -88,17 +69,7 @@ func (ws *WebSocket) Disconnect(s *melody.Session) {
 		return
 	}
 
-	msg, _ := json.Marshal(map[string]any{
-		"body": map[string]string{
-			"avatar": session.Avatar,
-			"from":   session.Username,
-			"room":   room,
-			"time":   time.Now().UTC().Format(time.RFC3339),
-		},
-		"type": "room:leave",
-	})
-
-	_ = ws.mel.BroadcastFilter(msg, ws.toRoom(room))
+	ws.Leave(s, session, room)
 
 	log.Printf("%s left", session.Username)
 }
@@ -128,38 +99,82 @@ func (ws *WebSocket) Message(s *melody.Session, msg []byte) {
 
 	switch message.Type {
 	case "chat":
-		chatMsg, ok := message.Body["msg"]
-		if !ok {
-			return
-		}
+		ws.Chat(s, session, message.Body)
 
-		if to, ok := message.Body["to"]; ok {
-			newMsg, _ := json.Marshal(map[string]any{
-				"body": map[string]string{
-					"msg":  chatMsg,
-					"from": session.Username,
-					"to":   to,
-					"time": time.Now().UTC().Format(time.RFC3339),
-				},
-				"type": "chat:whisper",
-			})
-			_ = ws.mel.BroadcastFilter(newMsg, ws.toName(to))
-			_ = s.Write(newMsg)
-		} else {
-			newMsg, _ := json.Marshal(map[string]any{
-				"body": map[string]string{
-					"msg":  chatMsg,
-					"from": session.Username,
-					"time": time.Now().UTC().Format(time.RFC3339),
-				},
-				"type": "chat:all",
-			})
-			_ = ws.mel.BroadcastFilter(newMsg, ws.toRoom(room))
-		}
+	case "room:join":
+		ws.Join(s, session, "lobby")
 	}
 }
 
-func (ws *WebSocket) toRoom(room string) func(*melody.Session) bool {
+func (ws *WebSocket) Chat(melSess *melody.Session, voidSess models.Session, body map[string]string) {
+	chatMsg, ok := body["msg"]
+	if !ok {
+		return
+	}
+
+	if to, ok := body["to"]; ok {
+		newMsg, _ := json.Marshal(map[string]any{
+			"body": map[string]string{
+				"msg":  chatMsg,
+				"from": voidSess.Username,
+				"to":   to,
+				"time": time.Now().UTC().Format(time.RFC3339),
+			},
+			"type": "chat:whisper",
+		})
+		_ = ws.mel.BroadcastFilter(newMsg, ws.ToName(to))
+		_ = melSess.Write(newMsg)
+	} else {
+		newMsg, _ := json.Marshal(map[string]any{
+			"body": map[string]string{
+				"msg":  chatMsg,
+				"from": voidSess.Username,
+				"time": time.Now().UTC().Format(time.RFC3339),
+			},
+			"type": "chat:all",
+		})
+		_ = ws.mel.BroadcastFilter(newMsg, ws.ToRoom("lobby"))
+	}
+}
+
+func (ws *WebSocket) Join(melSess *melody.Session, voidSess models.Session, room string) {
+	joinMsg, _ := json.Marshal(wsMessage{
+		Body: map[string]string{
+			"avatar": voidSess.Avatar,
+			"from":   voidSess.Username,
+			"room":   room,
+			"time":   time.Now().UTC().Format(time.RFC3339),
+		},
+		Type: "room:join",
+	})
+	sessionMsg, _ := json.Marshal(wsMessage{
+		Body: map[string]string{
+			"avatar": voidSess.Avatar,
+			"from":   voidSess.Username,
+			"time":   time.Now().UTC().Format(time.RFC3339),
+		},
+		Type: "session",
+	})
+
+	_ = melSess.Write(sessionMsg)
+	_ = ws.mel.BroadcastFilter(joinMsg, ws.ToRoom("lobby"))
+}
+
+func (ws *WebSocket) Leave(melSess *melody.Session, voidSess models.Session, room string) {
+	msg, _ := json.Marshal(map[string]any{
+		"body": map[string]string{
+			"avatar": voidSess.Avatar,
+			"from":   voidSess.Username,
+			"room":   room,
+			"time":   time.Now().UTC().Format(time.RFC3339),
+		},
+		"type": "room:leave",
+	})
+
+	_ = ws.mel.BroadcastFilter(msg, ws.ToRoom(room))
+}
+
+func (ws *WebSocket) ToRoom(room string) func(*melody.Session) bool {
 	return func(s *melody.Session) bool {
 		roomStr, ok := s.MustGet("room").(string)
 		if !ok {
@@ -170,7 +185,7 @@ func (ws *WebSocket) toRoom(room string) func(*melody.Session) bool {
 	}
 }
 
-func (ws *WebSocket) toName(name string) func(*melody.Session) bool {
+func (ws *WebSocket) ToName(name string) func(*melody.Session) bool {
 	return func(s *melody.Session) bool {
 		session, ok := s.MustGet("session").(models.Session)
 		if !ok {
