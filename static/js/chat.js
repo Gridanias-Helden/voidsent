@@ -146,7 +146,6 @@ class Chat extends LitElement {
 		client.ws.send(JSON.stringify({
 			"type": "chat",
 			"body": {
-				//"to": "Da",
 				"msg": this.msg,
 			}
 		}))

@@ -69,8 +69,8 @@ class VoidLobby extends LitElement {
 	`}
 
 	showNewGameDialog() {
-		//this.renderRoot?.querySelector("#new-game-dialog").open();
-		client.newGame("Demo")
+		this.renderRoot?.querySelector("#new-game-dialog").open();
+		//client.newGame("Demo")
 	}
 
 	render() {
