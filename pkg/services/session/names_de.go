@@ -190,7 +190,7 @@ var animalsDE = []string{
 	"Huhn",
 	"Hund",
 	"Ibisse",
-	"Iguana",
+	"Leguan",
 	"Impala",
 	"Jaguar",
 	"Kamel",
