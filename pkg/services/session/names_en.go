@@ -84,8 +84,6 @@ var animalsEN = []string{
 	"Ladybug", "Lemur", "Leopard", "Lobster",
 	"Mammoth", "Mantis", "Meerkat", "Mouse",
 	"Narwhal", "Newt", "Nightingale",
-	"Okapi", "Opossom", "Otter", "Owl",
-	"Panther", "Panda", "Penguim", "Pony",
 	"Okapi", "Opossum", "Otter", "Owl",
 	"Panther", "Panda", "Penguin", "Pony",
 	"Rabbit", "Raccoon", "Raven", "Rook",
