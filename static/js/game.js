@@ -11,11 +11,12 @@ class VoidGame extends LitElement {
 	static styles = css`
 		:host {
 			display: block;
-			width: calc(100vw - 40px);
 		}
 
 		.right {
 			display: flex;
+			flex-wrap: wrap;
+			width: 100%;
 			gap: 20px;
 		}
 		
@@ -24,7 +25,7 @@ class VoidGame extends LitElement {
 			display: flex;
 			flex-direction: column;
 			gap: 20px;
-			max-width: 30%;
+			/* max-width: 30%; */
 		}
 		
 		void-player-info{
