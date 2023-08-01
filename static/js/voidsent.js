@@ -17,53 +17,122 @@ class VoidClient {
 	}
 
 	onmessage(ev) {
-		console.log("data", ev.data);
-		let data = JSON.parse(ev.data);
-
-		console.log(data);
-
-		switch (data.type) {
-			case "lobby":
-				console.log("got lobby");
-				// this.lobby = data.lobby;
-				// this.page = "lobby";
-				// this.room = null;
-				break;
-
-			case "room:join":
-				console.log("join room");
-				for (let cb of this.joinRcv) {
-					cb(data.body);
-				}
-				break;
-
-			case "room:leave":
-				console.log("leave room");
-				for (let cb of this.leaveRcv) {
-					cb(data.body);
-				}
-				break;
-
-			case "chat:all":
-				console.log("got chat");
-				for (let cb of this.chatAllRcv) {
-					cb(data.body);
-				}
-				break;
-
-			case "chat:whisper":
-				console.log("got chat");
-				for (let cb of this.chatWhisperRcv) {
-					cb(data.body);
-				}
-				break;
-
-			case "session":
-				console.log("got session");
-				for (let cb of this.sessionRcv) {
-					cb(data.body);
-				}
+		if (!ev.data instanceof Blob) {
+			console.log("no binary frame");
+			return;
 		}
+
+		// binary frame
+		const reader = new FileReader();
+		reader.onload = () => {
+			/** @type {ArrayBuffer} */
+			const res = reader.result;
+			const decoder = new TextDecoder("utf-8");
+			const view = new DataView(res);
+			const type = decoder.decode(res.slice(0, 4));
+			const timestamp = new Date(Number(view.getBigInt64(4, false)));
+			let roomLen = 0;
+			let room = "";
+			let userLen = 0;
+			let user = "";
+			let msg = "";
+			let avatarLen = 0;
+			let avatar = "";
+			let fromLen = 0;
+			let from = "";
+			let toLen = 0;
+			let to = "";
+
+			switch (type) {
+				case "chat":
+					const action = decoder.decode(res.slice(12, 14));
+
+					switch (action) {
+						case "jo":
+							roomLen = view.getUint8(14);
+							room = decoder.decode(res.slice(15, 15 + roomLen));
+							userLen = view.getUint8(15 + roomLen);
+							user = decoder.decode(res.slice(16 + roomLen, 16 + roomLen + userLen));
+							for (let cb of this.joinRcv) {
+								cb({
+									room: room,
+									user: user,
+									time: timestamp,
+								});
+							}
+							break;
+
+						case "lv":
+							roomLen = view.getUint8(14);
+							room = decoder.decode(res.slice(15, 15 + roomLen));
+							userLen = view.getUint8(15 + roomLen);
+							user = decoder.decode(res.slice(16 + roomLen, 16 + roomLen + userLen));
+							for (let cb of this.leaveRcv) {
+								cb({
+									room: room,
+									user: user,
+									time: timestamp,
+								});
+							}
+							break;
+
+						case "sa":
+							userLen = view.getUint8(14);
+							user = decoder.decode(res.slice(15, 15 + userLen));
+							msg = decoder.decode(res.slice(15 + userLen));
+							for (let cb of this.chatAllRcv) {
+								cb({
+									user: user,
+									msg: msg,
+									time: timestamp,
+								});
+							}
+							break;
+
+						case "wh":
+							fromLen = view.getUint8(14);
+							from = decoder.decode(res.slice(15, 15 + fromLen));
+							toLen = view.getUint8(15 + fromLen);
+							to = decoder.decode(res.slice(16 + fromLen, 16 + fromLen + toLen));
+							msg = decoder.decode(res.slice(16 + fromLen + toLen));
+							console.log("got whisper", timestamp, from, to, msg, fromLen, toLen);
+							for (let cb of this.chatWhisperRcv) {
+								cb({
+									from: from,
+									to: to,
+									msg: msg,
+									time: timestamp,
+								});
+							}
+							break;
+					}
+					break;
+
+				case "sess":
+					userLen = view.getUint8(12);
+					user = decoder.decode(res.slice(13, 13 + userLen));
+					avatarLen = view.getUint8(13 + userLen);
+					avatar = decoder.decode(res.slice(14 + userLen, 14 + userLen + avatarLen));
+					console.log("got session", timestamp, user, avatar);
+
+					for (let cb of this.sessionRcv) {
+						cb({
+							user: user,
+							avatar: avatar,
+						});
+					}
+					break;
+			}
+		}
+		reader.readAsArrayBuffer(ev.data);
+
+		// 	case "room:leave":
+		// 		console.log("leave room");
+		// 		for (let cb of this.leaveRcv) {
+		// 			cb(data.body);
+		// 		}
+		// 		break;
+		//
 	}
 
 	onerror(ev) {
@@ -78,14 +147,47 @@ class VoidClient {
 		console.log("open", ev);
 	}
 
-	newGame(name, roles) {
-		this.ws.send(JSON.stringify({
-			type: "newGame",
-			voidsent: {
+	/**
+	 * Send a "new game" to the server
+	 * @param {string} name
+	 * @param {string} password
+	 * @param {string[]} roles
+	 */
+	newVoidGame({
 				name,
-				roles,
-			}
-		}))
+				password,
+				roles
+			}) {
+		const encoder = new TextEncoder();
+		const voidHeader = encoder.encode("void");
+		const createAction = encoder.encode("cr");
+		const nameLen = encoder.encode(name).length;
+		const passwordLen = encoder.encode(password).length;
+		const roleMap = {
+			witch: 1,
+			fortuneTeller: 2,
+			hunter: 4,
+			sheriff: 8,
+			thief: 16,
+			cupid: 32,
+			littleGirl: 64,
+		}
+		let roleMask = roles.reduce((acc, role) => {
+			return acc | roleMap[role];
+		}, 0);
+
+		const buffer = new Uint8Array([
+				...voidHeader,
+				...createAction,
+				nameLen,
+				...encoder.encode(name),
+				passwordLen,
+				...encoder.encode(password),
+				roleMask,
+			]
+		)
+
+		this.ws.send(buffer);
 	}
 
 	addEventListener(event, cb) {
@@ -118,6 +220,42 @@ class VoidClient {
 				this.sessionRcv.push(cb);
 				break;
 		}
+	}
+
+	chat({
+			 msg,
+			 to
+		 }) {
+		const encoder = new TextEncoder();
+		const chatHeader = encoder.encode("chat");
+		const msgContent = encoder.encode(msg);
+		const content = [
+			...chatHeader,
+		];
+
+		if (to) {
+			// Whisper to a user
+			content.push(...encoder.encode("wh"));
+			const toContent = encoder.encode(to);
+			content.push(toContent.length)
+			content.push(...toContent);
+		} else {
+			// Say to the room
+			content.push(...encoder.encode("sa"));
+		}
+
+		content.push(
+			...msgContent,
+		);
+
+		const buffer = new Uint8Array(content);
+		try {
+			this.ws.send(buffer);
+		} catch (e) {
+			console.log("error sending chat", e);
+		}
+
+		console.log("sending chat", content);
 	}
 }
 

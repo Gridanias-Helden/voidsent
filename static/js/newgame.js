@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "./libs/lit.min.js";
 import "./toggle.js"
+import { client } from "./voidsent.js";
 
 class NewGame extends LitElement {
 	static styles = css`
@@ -61,9 +62,12 @@ class NewGame extends LitElement {
 	}
 
 	toggleRole(role) {
-		this.selected[role] = !this.selected[role]
+		return () => {
+			console.log("role", role);
+			this.selected[role] = !this.selected[role]
 
-		return false;
+			return false;
+		}
 	}
 
 	open() {
@@ -75,6 +79,17 @@ class NewGame extends LitElement {
 	}
 
 	createGame() {
+		let roles = [];
+		for (let role in this.selected) {
+			if (this.selected[role]) {
+				roles.push(role);
+			}
+		}
+		client.newVoidGame({
+			name: this.renderRoot?.querySelector("#game-name").value,
+			password: this.renderRoot?.querySelector("#game-password").value,
+			roles: roles,
+		});
 	}
 
 	render() {

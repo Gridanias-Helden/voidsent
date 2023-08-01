@@ -22,14 +22,14 @@ class Chat extends LitElement {
 			this.self = playerInfo
 		})
 
-		client.addEventListener("room:join", ({ time, from, room }) => {
-			console.log(`${name} joined ${room}!`);
-			this.history = [ ...this.history, html`[${this.time(time)}] <b>${from}</b> ist ${room} beigetreten.`]
+		client.addEventListener("room:join", ({ time, user, room }) => {
+			console.log(`${user} joined ${room}!`);
+			this.history = [ ...this.history, html`[${this.time(time)}] <b>${user}</b> ist ${room} beigetreten.`]
 		})
 
-		client.addEventListener("room:leave", ({ time, from, room }) => {
-			console.log(`${from} left ${room}!`);
-			this.history = [ ...this.history, html`[${this.time(time)}] <b>${from}</b> hat ${room} verlassen.`]
+		client.addEventListener("room:leave", ({ time, user, room }) => {
+			console.log(`${user} left ${room}!`);
+			this.history = [ ...this.history, html`[${this.time(time)}] <b>${user}</b> hat ${room} verlassen.`]
 			this.history.sort((a, b) => {
 				if (a.time > b.time) {
 					return -1;
@@ -41,9 +41,9 @@ class Chat extends LitElement {
 			})
 		})
 
-		client.addEventListener("chat:all", ({ time, from, msg }) => {
-			console.log(`${from}: ${msg}`);
-			this.history = [ ...this.history, html`[${this.time(time)}] <b>${from}</b>: ${msg}`]
+		client.addEventListener("chat:all", ({ time, user, msg }) => {
+			console.log(`${user}: ${msg}`);
+			this.history = [ ...this.history, html`[${this.time(time)}] <b>${user}</b>: ${msg}`]
 			this.history.sort((a, b) => {
 				if (a.time > b.time) {
 					return -1;
@@ -56,9 +56,9 @@ class Chat extends LitElement {
 		})
 
 		client.addEventListener("chat:whisper", ({ time, to, from, msg }) => {
-			console.log(`${name}: ${msg}`);
+			console.log(`${from}: ${msg}`);
 			let newEntry = html`[${this.time(time)}] <i><b>${from} flüstert dir zu</b>: ${msg}</i>`
-			if (from === this.self.from) {
+			if (from === this.self.user) {
 				newEntry = html`[${this.time(time)}] <i><b>Du flüsterst ${to} zu</b>: ${msg}</i>`
 			}
 			this.history = [ ...this.history, newEntry]
@@ -129,13 +129,7 @@ class Chat extends LitElement {
 		if (this.msg.startsWith("/w")) {
 			let [_, to, ...msg] = this.msg.split(" ");
 			msg = msg.join(" ");
-			client.ws.send(JSON.stringify({
-				"type": "chat",
-				"body": {
-					"to": to,
-					"msg": msg,
-				}
-			}))
+			client.chat({ to, msg });
 			let input = this.renderRoot?.querySelector('#chat-input');
 			console.log(input);
 			input.value = "";
@@ -143,12 +137,7 @@ class Chat extends LitElement {
 			return;
 		}
 
-		client.ws.send(JSON.stringify({
-			"type": "chat",
-			"body": {
-				"msg": this.msg,
-			}
-		}))
+		client.chat({ msg: this.msg })
 
 		let input = this.renderRoot?.querySelector('#chat-input');
 		console.log(input);
