@@ -41,8 +41,8 @@ class NewGame extends LitElement {
 		super();
 
 		this.selected = {
-			witch: true,
-			fortuneTeller: true,
+			witch: false,
+			fortuneTeller: false,
 			hunter: false,
 			sheriff: false,
 			thief: false,
@@ -51,8 +51,8 @@ class NewGame extends LitElement {
 		}
 
 		this.enabled = {
-			witch: true,
-			fortuneTeller: true,
+			witch: false,
+			fortuneTeller: false,
 			hunter: false,
 			sheriff: false,
 			thief: false,
