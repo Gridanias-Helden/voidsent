@@ -13,7 +13,7 @@ type sessionKey struct{}
 
 var SessionKey sessionKey
 
-func WithSession(sessions storage.Sessions) func(next http.Handler) http.Handler {
+func WithSession(sessions storage.Sessions) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			c, err := r.Cookie("voidsent_session")

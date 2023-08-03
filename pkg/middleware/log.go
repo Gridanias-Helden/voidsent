@@ -38,8 +38,8 @@ func (sr *SizeRecorder) WriteHeader(code int) {
 	sr.Status = code
 }
 
-func (sr *SizeRecorder) Write(b []byte) (n int, err error) {
-	n, err = sr.ResponseWriter.Write(b)
+func (sr *SizeRecorder) Write(b []byte) (int, error) {
+	n, err := sr.ResponseWriter.Write(b)
 	sr.Size = sr.Size + Size(n)
 
 	return n, err
@@ -68,14 +68,11 @@ type SizeRequest struct {
 	Size   Size
 }
 
-func (sr *SizeRequest) Read(p []byte) (n int, err error) {
-	n, err = sr.Source.Read(p)
-	if err != nil {
-		return n, err
-	}
+func (sr *SizeRequest) Read(p []byte) (int, error) {
+	n, err := sr.Source.Read(p)
 	sr.Size = sr.Size + Size(n)
 
-	return n, nil
+	return n, err
 }
 
 func (sr *SizeRequest) Close() error {
