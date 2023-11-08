@@ -8,7 +8,7 @@ require (
 	github.com/oklog/ulid v1.3.1
 	github.com/olahol/melody v1.1.4
 	github.com/ravener/discord-oauth2 v0.0.0-20230514095040-ae65713199b3
-	golang.org/x/oauth2 v0.12.0
+	golang.org/x/oauth2 v0.13.0
 )
 
 require (
